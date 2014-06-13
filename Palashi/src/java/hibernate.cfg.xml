@@ -6,7 +6,7 @@
         <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
         <property name="hibernate.connection.url">jdbc:oracle:thin:@54.187.36.111:1521:XE</property>
         <property name="hibernate.connection.username">palashi</property>
-        <property name="hibernate.connection.password">palashi</property>
+        <property name="hibernate.connection.password">xxxxxxx</property>
         <mapping class="com.amclos.model.Funcion" />
         <mapping class="com.amclos.model.FuncionPerfil" />
         <mapping class="com.amclos.model.FuncionPerfilPK" />

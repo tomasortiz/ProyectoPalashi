@@ -30,22 +30,9 @@
             <property name="driverClassName" value="oracle.jdbc.OracleDriver"/> 
             <property name="url" value="jdbc:oracle:thin:@54.187.36.111:1521:XE"/>
             <property name="username" value="palashi"/>
-            <property name="password" value="palashi"/>
+            <property name="password" value="xxxxxxx"/>
         </bean>  
-         <!-- conexion privada
-        <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-            <property name="driverClassName" value="oracle.jdbc.OracleDriver"/> 
-            <property name="url" value="jdbc:oracle:thin:@172.31.19.161:1521:XE"/>
-            <property name="username" value="palashi"/>
-            <property name="password" value="palashi"/>
-        </bean> -->
-        <!--
-        
-        <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean" >
-            <property name="jndiName" value="AWS_DESA" />
-            <property name="lookupOnStartup" value="false"/>
-            <property name="cache" value="true"/>
-        </bean>-->
+         
     <bean id="hibernateProperties" 
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="properties">
