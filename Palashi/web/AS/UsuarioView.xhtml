@@ -1,0 +1,220 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      template="../TemplateModulo.xhtml">
+
+
+            <ui:define name="metadata">
+                metadata
+            </ui:define>
+
+            <ui:define name="MenuIzquierda">
+                <div class="panel panel-primary" style="width:100%">
+            <div class="panel-heading">                    
+                Administración del Sistema
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-sidebar" style="font-size: smaller;width:125%">            
+                    <li>
+                        <a href="ZonaGeograficaView.xhtml">Zonas Geográficas</a>
+                    </li>
+                    <li>
+                        <a href="InstitucionView.xhtml">Instituciones</a>
+                    </li>
+                    <li>
+                        <a href="ParametroView.xhtml">Parametros del Sistema</a>
+                    </li>
+                    <li>
+                        <a href="TiposView.xhtml">Tipos</a>
+                    </li>
+                    <li>
+                        <a href="PerfilView.xhtml">Perfiles de Usuario</a>                                
+                    </li>
+                    <li class="active">
+                        <a href="UsuarioView.xhtml">Usuarios</a>                                
+                    </li>
+                </ul>
+            </div>
+        </div>
+            </ui:define>
+
+            <ui:define name="Contenido">
+                
+          <h:form id="validarSession">
+               <h:inputHidden  rendered="#{usuarioView.login.validarSession}" value="#{usuarioView.login.validateSession('UsuarioView.xhtml')}" />
+               <h:inputHidden value="#{usuarioView.init()}"/>
+          </h:form>                
+                <h:form id="form5">
+                    <p:growl id="msgs" showDetail="true" sticky="true"  life ="3000"/>
+                    <p:selectOneMenu id="cbZgeo" value="#{usuarioView.idZongeo}"  style="width:225px"
+                                     valueChangeListener="#{usuarioView.handleChangeIns}" >
+                        
+                        <f:selectItems value="#{usuarioView.clZonaGeo}"  var="clZgo"
+                                       itemLabel="#{clZgo.descripcion}" itemValue="#{clZgo.id}" />  
+                        <p:ajax update=":form5:cbInst" />
+                    </p:selectOneMenu> 
+                    
+                    <p:selectOneMenu id="cbInst" value="#{usuarioView.idInstituciones}"  style="width:225px"
+                                     valueChangeListener="#{usuarioView.handleChange}" >
+                        
+                        <f:selectItems value="#{usuarioView.clInstituciones}"  var="clZ"
+                                       itemLabel="#{clZ.descripcion}" itemValue="#{clZ.id}" />  
+                        <p:ajax update=":form5:usua" />
+                    </p:selectOneMenu> 
+
+
+                    <p:dataTable id="usua" var="usuario" value="#{usuarioView.listUsuarios}">
+                        <f:facet name="header"  >
+                            Usuarios
+                        </f:facet>
+                        
+
+                        <p:column headerText="Codigo" style="width:24%">
+                            <h:outputText value="#{usuario.codigo}" />
+                        </p:column>
+                        <p:column sortBy="#{usuario.nombre}"  headerText="Nombre"  >
+                            <h:outputText value="#{usuario.nombre}"/>
+                        </p:column>
+                        <p:column style="width:300px;" width="300" filterStyle="width:280px" sortBy="#{usuario.apellidos}" headerText="Apellidos" >
+                            <h:outputText value="#{usuario.apellidos}"/>
+                        </p:column>
+
+                        <p:column style="width:400px;" width="300" filterStyle="width:100px" sortBy="#{usuario.email}" headerText="E-mail" >
+                            <center>
+                                <h:outputText  value="#{usuario.email}"   />                        
+                            </center>            
+                        </p:column>
+                       
+
+                        <p:column style="width:20%">
+                            <p:commandButton id="editarButton" update=":formActualizar:display" oncomplete="PF('usuarioDialog').show()" icon="ui-icon-search" title="Actualizar">
+                                <f:setPropertyActionListener value="#{usuario}" target="#{usuarioView.usuarioSelected}" />
+                            </p:commandButton>
+
+                            <p:commandButton id="eliminarButton" update=":form5" action="#{usuarioView.eliminar()}" icon="ui-icon-trash" title="View">
+                                <f:setPropertyActionListener value="#{usuario}" target="#{usuarioView.usuarioSelected}" />
+                            </p:commandButton>
+                            
+                             <p:commandButton id="editarReset" update=":formR:displayView" oncomplete="PF('usuarioDialogReset').show()" icon="ui-icon-reset" title="Reset">
+                                <f:setPropertyActionListener value="#{usuario}" target="#{usuarioView.usuarioSelected}" />
+                            </p:commandButton>
+                        </p:column>
+                        <f:facet name="footer"> 
+                            <p:commandButton value="Agregar" update=":form5" type="button" onclick="usuarioAdd.show();" />                                    
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>  
+                
+                <h:form id="formActualizar">
+
+                    <p:dialog header="Actualizar Usuario" widgetVar="usuarioDialog" resizable="false" id="instDlg"
+                              showEffect="fade" hideEffect="explode" modal="true">
+
+                        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">
+
+                            <h:outputLabel  value="Código:" />
+                            <h:outputLabel  value="#{usuarioView.usuarioSelected.codigo}" />
+                            <h:outputLabel  value="*Nombre:" />                          
+                            <p:inputText value="#{usuarioView.usuarioSelected.nombre}"
+                                         required="true" label="Nombre" requiredMessage="El Nombre del usuario es un campo obligatorio!" />
+
+                            <h:outputLabel value="*Apellido:" />
+                            <p:inputText value="#{usuarioView.usuarioSelected.apellidos}"
+                                         required="true" label="apellidos" requiredMessage="El Apellido del usuario es un campo obligatorio!" />
+
+                            <h:outputLabel value="*E-mail:" />
+                            <p:inputText value="#{usuarioView.usuarioSelected.email}"
+                                         required="true" label="Email" requiredMessage="El E-mail es un campo obligatorio!" />
+
+                            <h:outputLabel value="*Password:" />
+                            <p:password value="#{usuarioView.usuarioSelected.pass}"
+                                         required="true" label="Password" requiredMessage="Password es un campo obligatorio!" />
+
+                            <f:facet name="footer">                              
+                                <h:commandButton id="parametroEditButton1" value="Guardar"
+                                                 action="#{usuarioView.actualizar()}"  />
+                                <h:commandButton style="margin-left:30px;" value="Cancelar" type="button" onclick="usuarioDialog.hide();" />
+                            </f:facet>
+
+                        </h:panelGrid>
+
+                    </p:dialog>
+
+                </h:form> 
+
+                <h:form id="formR">
+
+                    <p:dialog header="Resetear Contraseña" widgetVar="usuarioDialogReset" resizable="false" id="usuaDlgReset"
+                              showEffect="fade" hideEffect="explode" modal="true">
+
+                        <h:panelGrid id="displayView" columns="2" cellpadding="4" style="margin:0 auto;">
+
+                            <h:outputLabel  value="Código:" />
+                            <h:outputLabel  value="#{usuarioView.usuarioSelected.codigo}"/>
+                            <h:outputLabel  value="Nombre:" />                          
+                            <h:outputLabel  value="#{usuarioView.usuarioSelected.nombre}"/>
+                            <h:outputLabel value="Apellidos:" />
+                            <h:outputLabel value="#{usuarioView.usuarioSelected.apellidos}"/>                            
+                            <h:outputLabel value="Nueva Contraseña" />
+                            <p:inputText value="#{usuarioView.usuarioSelected.pass}" required="true" label="Password" requiredMessage="Password" />
+                            <f:facet name="footer">                              
+                                <h:commandButton id="parametroEditButton2" value="Guardar"
+                                                 action="#{usuarioView.actualizar()}">
+                                    <p:ajax event="blur" update=":form5:msgs"/>
+                                </h:commandButton>
+                                <h:commandButton style="margin-left:30px;" value="Cancelar" type="button" onclick="usuarioEdit.hide();" />
+                            </f:facet>
+
+                        </h:panelGrid>
+
+                    </p:dialog>
+
+                </h:form> 
+                
+                <!--Fin tabla+ btns de agregar, editar, eliminar -->
+
+                <h:form>
+                    <p:dialog header="" widgetVar="usuarioAdd" resizable="false" modal="true" showEffect="fade" hideEffect="explode"> 
+                        <h:panelGrid columns="2" cellpadding="6" >
+
+                            <f:facet name="header">
+                                <legend>Registrar Usuario</legend>
+                            </f:facet>
+
+
+                            <h:outputLabel  value="*C�digo:" />
+                            <p:inputText value="#{usuarioView.codigo}"
+                                         required="true" label="Codigo" requiredMessage="El código es obligatorio!" />
+
+                            <h:outputLabel  value="*Nombre:" />                          
+                            <p:inputText value="#{usuarioView.nombre}"
+                                         required="true" label="Nombre" requiredMessage="El Nombre del Empleado es obligatorio!" />
+
+                            <h:outputLabel value="*Apellido:" />
+                            <p:inputText value="#{usuarioView.apellidos}"
+                                         required="true" label="Apellido" requiredMessage="El Apellido es obligatorio" />
+
+           
+                            <h:outputLabel value="*E-mail:" />
+                            <p:inputText value="#{usuarioView.email}"
+                                         required="true" label="Email" requiredMessage="El Email es obligatorio" />
+
+                            <h:outputLabel value="*Password:" />
+                            <p:password value="#{usuarioView.pass}"
+                                         required="true" label="Password" requiredMessage="Password es obligatorio" />
+
+          
+                            <f:facet name="footer">
+
+                                <p:commandButton value="Crear" update=":form5" action="#{usuarioView.guardar()}" oncomplete="usuarioAdd.hide()" />
+                                <h:commandButton style="margin-left:30px;" value="Cancelar" type="button" onclick="usuarioAdd.hide();" />
+                            </f:facet>
+                        </h:panelGrid> 
+
+                    </p:dialog> 
+                </h:form>					                 
+            </ui:define>
+
+        </ui:composition>

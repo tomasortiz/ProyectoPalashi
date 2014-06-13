@@ -1,0 +1,222 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 template="../TemplateModulo.xhtml">
+
+
+
+    <ui:define name="MenuIzquierda">
+        <div class="panel panel-primary" style="width:100%">
+            <div class="panel-heading">                    
+                Administración del Sistema
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-sidebar" style="font-size: smaller;width:125%">            
+                    <li>
+                        <a href="ZonaGeograficaView.xhtml">Zonas Geográficas</a>
+                    </li>
+                    <li class="active">
+                        <a href="InstitucionView.xhtml">Instituciones</a>
+                    </li>
+                    <li>
+                        <a href="ParametroView.xhtml">Parametros del Sistema</a>
+                    </li>
+                    <li>
+                        <a href="TiposView.xhtml">Tipos</a>
+                    </li>
+                    <li>
+                        <a href="PerfilView.xhtml">Perfiles de Usuario</a>                                
+                    </li>
+                    <li>
+                        <a href="UsuarioView.xhtml">Usuarios</a>                                
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </ui:define>
+
+    <ui:define name="Contenido">
+
+        <h:form id="validarSession">
+            <h:inputHidden  rendered="#{institucionView.login.validarSession}" value="#{institucionView.login.validateSession('InstitucionView.xhtml')}" />
+            <h:inputHidden value="#{institucionView.init()}"/>
+        </h:form>  
+
+        <h:form id="form5">
+            <p:growl id="msgs" showDetail="true" sticky="true"  life ="3000"/>
+            <h:panelGrid>
+            <p:selectOneMenu id="cbInst" value="#{institucionView.idZonas}"  style="width:225px"
+                             valueChangeListener="#{institucionView.handleChange}" >
+
+                <f:selectItems value="#{institucionView.clZonas}"  var="clZ"
+                               itemLabel="#{clZ.descripcion}" itemValue="#{clZ.id}" />  
+                <p:ajax update=":form5:inst" />
+            </p:selectOneMenu> 
+           </h:panelGrid>     
+
+
+            <p:dataTable id="inst" var="institucion" value="#{institucionView.listInstituciones}">
+                <f:facet name="header"  >
+                    Instituciones
+                </f:facet>
+
+                <p:column headerText="Codigo" style="width:24%">
+                    <h:outputText value="#{institucion.codigo}" />
+                </p:column>
+                <p:column sortBy="#{institucion.nombre}"  headerText="Nombre"  >
+                    <h:outputText value="#{institucion.nombre}"/>
+                </p:column>
+                <p:column style="width:300px;" width="300" filterStyle="width:280px" sortBy="#{institucion.repLegal}" headerText="Rep. Legal" >
+                    <h:outputText value="#{institucion.repLegal}"/>
+                </p:column>
+
+                <p:column style="width:180px;" width="180" filterStyle="width:100px" sortBy="#{institucion.telefono}" headerText="Teléfono" >
+                    <center>
+                        <h:outputText value="#{institucion.telefono}"/>                           
+                    </center>            
+                </p:column>
+
+                <p:column style="width:300px;" width="300" filterStyle="width:100px" sortBy="#{institucion.email}" headerText="E-mail" >
+                    <center>
+                        <h:outputText  value="#{institucion.email}"   />                        
+                    </center>            
+                </p:column>
+                <p:column style="width:150px;" width="100" filterStyle="width:100px" sortBy="#{institucion.direccion}" headerText="Dirección" >
+                    <h:outputText value="#{institucion.direccion}" />
+                </p:column>
+
+                <p:column style="width:150px;" width="100" filterStyle="width:100px" sortBy="#{institucion.numEmpleados}" headerText="No.Emp" >
+                    <h:outputText value="#{institucion.numEmpleados}" />
+                </p:column>
+                
+                <h:outputLabel  value="Tipo Institución " />
+                <h:outputLabel  style="font-weight:normal" value="#{institucionView.instituto.tipoInstitucion.descripcion}"/>
+
+
+                <p:column style="width:10%">
+                    <p:commandButton id="editarButton" update=":formActualizar:display" oncomplete="PF('institucionDialog').show()" icon="ui-icon-search" title="Actualizar">
+                        <f:setPropertyActionListener value="#{institucion}" target="#{institucionView.institucionSelected}" />
+                    </p:commandButton>
+
+                    <p:commandButton id="eliminarButton" update=":form5" action="#{institucionView.eliminar()}" icon="ui-icon-trash" title="View">
+                        <f:setPropertyActionListener value="#{institucion}" target="#{institucionView.institucionSelected}" />
+                    </p:commandButton>
+                </p:column>
+                <f:facet name="footer"> 
+                    <p:commandButton value="Agregar" update=":form5" type="button" onclick="institucionAdd.show();" />                                    
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+
+        <h:form id="formActualizar">
+
+            <p:dialog header="Editar Institución" widgetVar="institucionDialog" resizable="false" id="instDlg"
+                      showEffect="fade" hideEffect="explode" modal="true">
+
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">
+
+                    <h:outputLabel  value="Nombre:" />
+                    <h:outputLabel  value="#{institucionView.institucionSelected.codigo}" />
+                    <h:outputLabel  value="Nombre:" />                          
+                    <p:inputText value="#{institucionView.institucionSelected.nombre}"
+                                 required="true" label="Nombre" requiredMessage="Nombre del Empleado es obligatorio." />
+
+                    <h:outputLabel value="Rep. Legal:" />
+                    <p:inputText value="#{institucionView.institucionSelected.repLegal}"
+                                 required="true" label="repLegal" requiredMessage="Representante legal obligatorio" />
+
+                    <h:outputLabel value="Teléfono:" />
+                    <p:inputText value="#{institucionView.institucionSelected.telefono}"
+                                 required="true" label="Telefono" requiredMessage="Telefono obligatorio" />
+
+                    <h:outputLabel value="E-mail:" />
+                    <p:inputText value="#{institucionView.institucionSelected.email}"
+                                 required="true" label="Email" requiredMessage="Email obligatorio" />
+
+                    <h:outputLabel value="Dirección:" />
+                    <p:inputText value="#{institucionView.institucionSelected.direccion}"
+                                 required="true" label="Direccion" requiredMessage="Direccion obligatorio" />
+
+                    <h:outputLabel value="No. Empleados:" />
+                    <p:inputText value="#{institucionView.institucionSelected.numEmpleados}"
+                                 required="true" label="numEmpleados" requiredMessage="N Empleadosobligatorio" />
+
+                    <h:outputLabel  value="Tipo Institución " />
+                    <p:inplace label="#{institucionView.institucionSelected.tipoInstitucion.descripcion}"  effectSpeed="fast"  >
+                        <p:selectOneMenu value="#{institucionView.institucionSelected.tipoInstitucion.codigo}"  style="width:450px">
+                            <f:selectItems  value="#{institucionView.tiposInstitucion}"  var="te"
+                                            itemLabel="#{te.descripcion}" itemValue="#{te.id}" />                                                                  
+                        </p:selectOneMenu> 
+                    </p:inplace>
+                    <f:facet name="footer">                              
+                        <h:commandButton id="parametroEditButton1" value="Guardar"
+                                         action="#{institucionView.actualizar()}" />
+                        <h:commandButton style="margin-left:30px;" value="Cancelar" type="button" onclick="institucionEdit.hide();" />
+                    </f:facet>
+
+                </h:panelGrid>
+
+            </p:dialog>
+
+        </h:form> 
+
+        <!--Fin tabla+ btns de agregar, editar, eliminar -->
+
+        <h:form>
+            <p:dialog header="" widgetVar="institucionAdd" resizable="false" modal="true" showEffect="fade" hideEffect="explode"> 
+                <h:panelGrid columns="2" cellpadding="6" >
+
+                    <f:facet name="header">
+                        <legend>Registrar Institución</legend>
+                    </f:facet>
+
+                    <h:outputLabel  value="Nombre:" />                          
+                    <p:inputText value="#{institucionView.instituto.nombre}"
+                                 required="true" label="Nombre" requiredMessage="Nombre del Empleado es obligatorio." />
+
+                    <h:outputLabel value="Rep. Legal:" />
+                    <p:inputText value="#{institucionView.instituto.repLegal}"
+                                 required="true" label="repLegal" requiredMessage="Representante legal obligatorio" />
+
+                    <h:outputLabel value="Teléfono:" />
+                    <p:inputText value="#{institucionView.instituto.telefono}"
+                                 required="true" label="Telefono" requiredMessage="Telefono obligatorio" />
+
+                    <h:outputLabel value="E-mail:" />
+                    <p:inputText value="#{institucionView.instituto.email}"
+                                 required="true" label="Email" requiredMessage="Email obligatorio" />
+
+                    <h:outputLabel value="Dirección:" />
+                    <p:inputText value="#{institucionView.instituto.direccion}"
+                                 required="true" label="Direccion" requiredMessage="Direccion obligatorio" />
+
+                    <h:outputLabel value="No. Empleados:" />
+                    <p:inputText value="#{institucionView.instituto.numEmpleados}"
+                                 required="true" label="numEmpleados" requiredMessage="N Empleadosobligatorio" />
+                    
+                    <h:outputLabel  value="Tipo Institución " />
+                        <p:selectOneMenu value="#{institucionView.tipoInstitucion}"  style="width:450px">
+                            <f:selectItems  value="#{institucionView.tiposInstitucion}"  var="te"
+                                            itemLabel="#{te.descripcion}" itemValue="#{te.id}" />                                                                  
+                        </p:selectOneMenu> 
+                   
+                    
+
+
+                    <f:facet name="footer">
+
+                        <p:commandButton value="Crear" update=":form5" action="#{institucionView.guardar()}" oncomplete="institucionAdd.hide()" />
+                        <h:commandButton style="margin-left:30px;" value="Cancelar" type="button" onclick="institucionAdd.hide()" />
+                    </f:facet>
+                </h:panelGrid> 
+
+            </p:dialog> 
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
+
+   

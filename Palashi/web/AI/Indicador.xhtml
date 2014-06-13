@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    
+    <h:form id="formContent">
+            <p:growl  id="growl" showDetail="true" sticky="true" life="3000"  />  
+            <p:panelGrid columns="2"  style="width:800px; height:400px">
+
+                <f:facet name="header" >
+                    Administración de Indicadores
+                    <p:toolbar id="tool">
+                        <p:toolbarGroup align="left">
+                            <p:commandButton type="button" update =":formNuevo" title="Nuevo" icon="ui-icon-document" onclick="NuevoSubIndicador.show();" />
+                            
+                                <c:if test="#{indicadorView.disableIndicador.equals('true')}">
+                                    <p:commandButton  update=":formContent,:formContent:tool" title="Editar" icon="ui-icon-pencil" actionListener="#{indicadorView.editar}"/>
+                                </c:if>
+                                <c:if test="#{indicadorView.disableIndicador.equals('false')}">
+                                    <p:commandButton  update=":formContent,:formContent:tool" title="Guardar" icon="ui-icon-disk" actionListener="#{indicadorView.actualizar}"/>
+                                </c:if>
+                                <p:commandButton update=":formleft:tree,:formContent" title="Eliminar" icon="ui-icon-trash" actionListener="#{indicadorView.eliminar}"/>
+                            
+                        </p:toolbarGroup>
+                    </p:toolbar>
+                </f:facet>
+
+
+
+               
+
+                    <p:panelGrid columns="2" style="width:780px; height:400px" >      
+                        <c:if test="#{indicadorView.disableIndicador.equals('true')}">
+                            <h:outputLabel  value="Código Indicador " />
+                            <h:outputLabel  style="font-weight:normal" id="inputCodigo"  value="#{indicadorView.indicador.codigo}"   />
+
+                            <h:outputLabel  value="Nombre del Indicador " />
+                            <h:outputLabel  style="font-weight:normal" value="#{indicadorView.indicador.nombre}"  />
+
+                            <h:outputLabel  value="Peso " />
+                            <h:outputLabel  style="font-weight:normal" value="#{indicadorView.indicador.peso}"  />
+
+
+                            <h:outputLabel  value="Descripción " />
+                            <h:outputLabel  style="text-align:justify;font-weight:normal" value="#{indicadorView.indicador.descripcion}"/>
+
+
+                            <h:outputLabel  value="Relevancia " />
+                            <h:outputLabel  style="text-align:justify;font-weight:normal" value="#{indicadorView.indicador.relevancia}"/>
+
+
+                            <h:outputLabel  value="TipoEscala " />
+                            <h:outputLabel  style="font-weight:normal" value="#{indicadorView.indicador.tipoEscala.descripcion}"/>
+
+
+                        </c:if>
+                        <c:if test="#{indicadorView.disableIndicador.equals('false')}">
+
+                            <h:outputLabel  value="Código Indicador " />
+                            <p:inputText  disabled="true" id="inputCodigo" size="58" value="#{indicadorView.indicador.codigo}"  label="Código del Indicador" />
+
+                            <h:outputLabel  value="Nombre del Indicador " />
+                            <p:inputText id="inputNombre" size="58" value="#{indicadorView.indicador.nombre}"  label="Nombre del Indicador"/>
+
+                            <h:outputLabel  value="Peso " />
+                            <p:inputText id="inputPeso" size="58" value="#{indicadorView.indicador.peso}"  label="Peso del Indicador"/>
+
+
+                            <h:outputLabel  value="Descripción " />
+                            <p:inputTextarea  id="txtDescripcion"  cols="60"  value="#{indicadorView.indicador.descripcion}"/>
+
+
+                            <h:outputLabel  value="Relevancia " />
+                            <p:inputTextarea  id="txtRelevancia" rows="3" cols="60"  value="#{indicadorView.indicador.relevancia}"/>
+
+                            <h:outputLabel  value="Tipo Escala " />
+                            <p:inplace label="#{indicadorView.indicador.tipoEscala.descripcion}"  effectSpeed="fast"  >
+                                <p:selectOneMenu value="#{indicadorView.indicador.tipoEscala.codigo}"  style="width:450px">
+                                    <f:selectItems  value="#{indicadorView.tiposEscala}"  var="te"
+                                                    itemLabel="#{te.descripcion}" itemValue="#{te.id}" />                                                                  
+                                </p:selectOneMenu> 
+                            </p:inplace>
+                        </c:if>
+
+                    </p:panelGrid>
+                </p:panelGrid>
+        </h:form>  
+    <h:form id="formNuevo">
+             
+             <p:dialog  header="Agregar nuevo Subindicador" widgetVar="NuevoSubIndicador" showEffect="fade" hideEffect="explode" modal="true"> 
+            <p:scrollPanel style="width:600px;height:280px" mode="native">
+                        <p:panelGrid columns="2" >
+
+                            <h:outputLabel  value="Código Subindicador " />
+                            <p:inputText id="inputCodigoSubn" size="58" value="#{indicadorView.subIndicadorNuevo.codigo}"  label="Código del Subindicador" />
+
+                            <h:outputLabel  value="Nombre del Subindicador " />
+                            <p:inputText id="inputNombreSubn" size="58" value="#{indicadorView.subIndicadorNuevo.nombre}"  label="Nombre del Subindicador"/>
+
+                            <h:outputLabel  value="Peso " />
+                            <p:inputText id="inputPesoSubn" size="58" value="#{indicadorView.subIndicadorNuevo.peso}"  label="Peso del Indicador"/>
+
+
+                            <h:outputLabel  value="Descripción " />
+                            <p:inputTextarea  id="txtDescripcionSubn" rows="3" cols="60"  value="#{indicadorView.subIndicadorNuevo.descripcion}"/>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Guardar" styleClass="btn" style="top:5px; margin-left:180px;" update=":formleft:tree,:formContent" actionListener="#{indicadorView.guardar}" id="withIcon2"   
+                                                 icon="ui-icon-disk" oncomplete="NuevoSubIndicador.hide()"/>
+                                <p:commandButton styleClass="btn" style="top:5px;margin-left:20px;" value="Cancelar" type="button" onclick="NuevoSubIndicador.hide()" />
+                            </f:facet> 
+
+                        </p:panelGrid>
+                    </p:scrollPanel>
+            </p:dialog> 
+        </h:form>    
+    
+</html>

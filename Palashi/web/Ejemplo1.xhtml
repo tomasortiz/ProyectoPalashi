@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="Template.xhtml">
+
+    <ui:define name="MenuIzquierda">
+        <h4> Tablero de Gestión</h4>
+        <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">Pendientes Mes (5)</a></li>
+            <li><a href="#">Total Pendientes (10)</a></li>
+            <li><a href="#">Total Actualizadas(3)</a></li>
+        </ul>
+    </ui:define>
+    <ui:define name="Contenido">
+        <table> 
+            <tr>
+                <td><a href ="manual" > 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="200" height="200" fill="#F44E4E"></rect><text text-anchor="middle" x="100" y="100" style="fill:#1E292C;font-weight:bold;font-size:13px;font-family:Arial,Helvetica,sans-serif;dominant-baseline:central">Pendientes Mes(5)</text></svg>
+                    </a>
+                    <span class="text-muted"><a href ="manual" >Actualizar</a></span>
+                </td>
+                <td><a href ="manual" > 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="200" height="200" fill="#F44E4E"></rect><text text-anchor="middle" x="100" y="100" style="fill:#1E292C;font-weight:bold;font-size:13px;font-family:sans-serif;dominant-baseline:central">Pendientes Total(15)</text></svg>
+                    </a>
+                    <span class="text-muted"><a href ="manual" >Actualizar</a></span></td>
+                <td><a href ="manual" > 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="200" height="200" fill="#39DBAC"></rect><text text-anchor="middle" x="100" y="100" style="fill:#1E292C;font-weight:bold;font-size:13px;font-family:sans-serif;dominant-baseline:central">Total Actualizadas (5)</text></svg>
+                    </a>
+                    <span class="text-muted"><a href ="manual" >Actualizar</a></span></td>
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>

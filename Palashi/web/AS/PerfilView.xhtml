@@ -1,0 +1,138 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 template="../TemplateModulo.xhtml">
+
+
+
+    <ui:define name="MenuIzquierda">
+        <div class="panel panel-primary" style="width:100%">
+            <div class="panel-heading">                    
+                Administración del Sistema
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-sidebar" style="font-size: smaller;width:125%">            
+                    <li>
+                        <a href="ZonaGeograficaView.xhtml">Zonas Geográficas</a>
+                    </li>
+                    <li>
+                        <a href="InstitucionView.xhtml">Instituciones</a>
+                    </li>
+                    <li>
+                        <a href="ParametroView.xhtml">Parametros del Sistema</a>
+                    </li>
+                    <li>
+                        <a href="TiposView.xhtml">Tipos</a>
+                    </li>
+                    <li class="active">
+                        <a href="PerfilView.xhtml">Perfiles de Usuario</a>                                
+                    </li>
+                    <li>
+                        <a href="UsuarioView.xhtml">Usuarios</a>                                
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </ui:define>
+
+    <ui:define name="Contenido">
+        <h:form id="validarSession">
+            <h:inputHidden  rendered="#{perfilView.login.validarSession}" value="#{perfilView.login.validateSession('PerfilView.xhtml')}" />
+            <h:inputHidden value="#{perfilView.init()}"/>
+        </h:form>
+
+
+        <h:form id="form5">
+            <p:growl id="msgs" showDetail="true" sticky="true"  life ="3000"/>
+
+
+            <p:dataTable id="inst" var="perfil" value="#{perfilView.listPerfiles}">
+                <f:facet name="header"  >
+                    Perfiles
+                </f:facet>
+
+                <p:column headerText="Codigo" style="width:24%">
+                    <h:outputText value="#{perfil.codigo}" />
+                </p:column>
+                <p:column sortBy="#{perfil.nombre}"  headerText="Nombre"  >
+                    <h:outputText value="#{perfil.nombre}"/>
+                </p:column>
+
+
+
+
+
+
+                <p:column style="width:20%">
+                    <p:commandButton id="editarButton" update=":formActualizar:display" oncomplete="PF('perfilDialog').show()" icon="ui-icon-search" title="Actualizar">
+                        <f:setPropertyActionListener value="#{perfil}" target="#{perfilView.perfilSelected}" />
+                    </p:commandButton>
+
+                    <p:commandButton id="eliminarButton" update=":form5" action="#{perfilView.eliminar()}" icon="ui-icon-trash" title="View">
+                        <f:setPropertyActionListener value="#{perfil}" target="#{perfilView.perfilSelected}" />
+                    </p:commandButton>
+                </p:column>
+                <f:facet name="footer"> 
+                    <p:commandButton value="Agregar" update=":form5,:formNuevo" type="button" onclick="perfilAdd.show();" />                                    
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+        <h:form id="formActualizar">
+
+            <p:dialog header="Actualizar Perfil" widgetVar="perfilDialog" resizable="false" id="instDlg"
+                      showEffect="fade" hideEffect="explode" modal="true">
+
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">
+
+                    <h:outputLabel  value="Código:" />
+                    <h:outputLabel  value="#{perfilView.perfilSelected.codigo}" />
+                    <h:outputLabel  value="Nombre:" />                          
+                    <p:inputText value="#{perfilView.perfilSelected.nombre}"
+                                 required="true" label="Nombre" requiredMessage="Nombre del Empleado es obligatorio." />
+
+
+                    <f:facet name="footer">                              
+                        <h:commandButton id="parametroEditButton1" value="Guardar"
+                                         action="#{perfilView.actualizar()}"  />
+                        <h:commandButton style="margin-left:30px;" value="Cancelar" type="button" onclick="perfilEdit.hide();" />
+                    </f:facet>
+
+                </h:panelGrid>
+
+            </p:dialog>
+
+        </h:form> 
+
+        <!--Fin tabla+ btns de agregar, editar, eliminar -->
+
+        <h:form id="formNuevo">
+            <p:dialog header="" widgetVar="perfilAdd" resizable="false" modal="true" showEffect="fade" hideEffect="explode"> 
+                <h:panelGrid columns="2" cellpadding="6" >
+
+                    <f:facet name="header">
+                        <legend>Registrar Perfil</legend>
+                    </f:facet>
+
+
+                   
+                    <h:outputLabel  value="Nombre:" />                          
+                    <p:inputText value="#{perfilView.perfil.nombre}" />
+
+                    <f:facet name="footer">
+
+                        <p:commandButton value="Crear" update=":form5" action="#{perfilView.guardar()}" oncomplete="perfilAdd.hide()" />
+                        <h:commandButton style="margin-left:30px;" value="Cancelar" type="button" onclick="perfilAdd.hide()" />
+                    </f:facet>
+                </h:panelGrid> 
+
+            </p:dialog> 
+        </h:form>      
+
+
+    </ui:define>
+
+</ui:composition>
+

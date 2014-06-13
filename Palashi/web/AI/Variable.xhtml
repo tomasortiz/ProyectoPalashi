@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:form id="formContent">
+        <p:growl  id="growl" showDetail="true" sticky="true" life="3000"  />  
+        <p:tabView id="tabVariable" style="width:800px; height:600px">
+            <p:tab id="tab1" title="Información">
+                
+                <p:panelGrid columns="2"  style="width:800px; height:100px">
+
+                    <f:facet name="header" >
+                        Administración de Variables
+                        <p:toolbar id="tool">
+                            <p:toolbarGroup align="left">
+                                <p:commandButton type="button" update =":formNuevo" title="Nuevo" icon="ui-icon-document" onclick="NuevaPregunta.show();" />
+
+                                <c:if test="#{indicadorView.disableIndicador.equals('true')}">
+                                    <p:commandButton  update=":formContent,:formContent:tabVariable:tool" title="Editar" icon="ui-icon-pencil" actionListener="#{indicadorView.editar}"/>
+                                </c:if>
+                                <c:if test="#{indicadorView.disableIndicador.equals('false')}">
+                                    <p:commandButton  update=":formContent,:formContent:tabVariable:tool" title="Guardar" icon="ui-icon-disk" actionListener="#{indicadorView.actualizar}"/>
+                                </c:if>
+                                <p:commandButton update=":formleft:tree,:formContent" title="Eliminar" icon="ui-icon-trash" actionListener="#{indicadorView.eliminar}"/>
+
+                            </p:toolbarGroup>
+                        </p:toolbar>
+                    </f:facet>
+                </p:panelGrid>
+
+                <p:panelGrid columns="2" style="width:800px; height:150px">      
+                    <c:if test="#{indicadorView.disableIndicador.equals('true')}">
+                        <h:outputLabel  value="Código Variable " />
+                        <h:outputLabel  style="font-weight:normal"   value="#{indicadorView.variableEdit.codigo}"   />
+
+                        <h:outputLabel  value="Nombre de la Variable " />
+                        <h:outputLabel  style="font-weight:normal" value="#{indicadorView.variableEdit.descripcion}"  />
+
+                        <h:outputLabel  value="Medición " />
+                        <h:outputLabel  style="font-weight:normal" value="#{indicadorView.variableEdit.medicion}"  />
+
+
+
+                    </c:if>
+                    <c:if test="#{indicadorView.disableIndicador.equals('false')}">
+
+                        <h:outputLabel  value="Código Variable " />
+                        <p:inputText  disabled="true" id="inputCodigoVar" size="70" value="#{indicadorView.variableEdit.codigo}"  label="Código de la Variable" />
+
+                        <h:outputLabel  value="Nombre de la Variable " />
+                        <p:inputText id="inputNombreVar" size="70" value="#{indicadorView.variableEdit.descripcion}"  label="Nombre de la Variable"/>
+
+                        <h:outputLabel  value="Medición " />
+                        <p:inputText id="inputMedicionVar" size="70" value="#{indicadorView.variableEdit.medicion}"  label="Describe que mide la variable"/>
+
+
+                    </c:if>
+
+                </p:panelGrid>
+            </p:tab>
+
+            <p:tab id="tab2" title="Instituciones">
+                
+                <p:panelGrid columns="2"  style="width:800px; height:400px">
+
+                    <f:facet name="header" >
+                        
+                        <p:toolbar id="toolI" >
+                            <p:toolbarGroup align="left">
+                                <p:commandButton  update=":formContent" disabled="#{indicadorView.disabledGuardarIntVar}"  title="Guardar" icon="ui-icon-disk" actionListener="#{indicadorView.guardarInsVar()}"/>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+                    </f:facet>
+                </p:panelGrid>
+
+                <p:panelGrid columns="3"  style="width:800px; height:300px">
+                    <p:panelGrid columns="1"> 
+                    <h:outputText value="Tipos de Instituciones" />
+                    
+                    <p:selectOneListbox style="width:300px; height:300px"  id="ti" value="#{indicadorView.tipoInstitucion}">
+                        <f:selectItems value="#{indicadorView.tiposInstitucionesNoAsig}"  var="ti"
+                                       itemLabel="#{ti.descripcion}" itemValue="#{ti.id}" />   
+                    </p:selectOneListbox>
+                    </p:panelGrid>
+                    <p:panelGrid columns="1">
+                        <p:commandButton  styleClass="btn" update=":formContent:tabVariable:tia,:formContent:tabVariable:ti,:formContent:tabVariable:toolI"  icon="ui-icon-carat-1-e" actionListener="#{indicadorView.asignar}"/>
+                        <p:commandButton  styleClass="btn" update=":formContent:tabVariable:tia,:formContent:tabVariable:ti,:formContent:tabVariable:toolI"  icon="ui-icon-seek-end" actionListener="#{indicadorView.asignarTodo}"/>
+                        <p:commandButton styleClass="btn" update=":formContent:tabVariable:tia,:formContent:tabVariable:ti,:formContent:tabVariable:toolI"  icon="ui-icon-carat-1-w" actionListener="#{indicadorView.desAsignar()}"/>
+                        <p:commandButton styleClass="btn" update=":formContent:tabVariable:tia,:formContent:tabVariable:ti,:formContent:tabVariable:toolI"  icon="ui-icon-seek-first" actionListener="#{indicadorView.desAsignarTodo()}"/>
+                    </p:panelGrid>
+                    <p:panelGrid columns="1">
+                    <h:outputText value="Instituciones Asignadas" />
+                    <p:selectOneListbox  style="width:300px; height:300px" id="tia" value="#{indicadorView.tipoInstitucionAsig}">
+                        <f:selectItems value="#{indicadorView.tiposInstitucionesAsig}"  var="ti"
+                                       itemLabel="#{ti.descripcion}" itemValue="#{ti.id}" />   
+                    </p:selectOneListbox>
+                    </p:panelGrid>
+                    
+                </p:panelGrid>
+
+            </p:tab>
+        </p:tabView>
+    </h:form> 
+    <h:form id="formNuevo">
+
+        <p:dialog header="Agregar nueva Pregunta" widgetVar="NuevaPregunta" showEffect="fade" hideEffect="explode" modal="true"> 
+            <p:scrollPanel style="width:600px;height:220px" mode="native">
+                <p:panelGrid columns="2" >
+                     <h:outputLabel  value="Tipo de Situación " />
+
+                    <p:selectOneMenu value="#{indicadorView.tipoSituacion}"  style="width:390px">
+                        <f:selectItems value="#{indicadorView.tiposSituacion}"  var="ts"
+                                       itemLabel="#{ts.descripcion}" itemValue="#{ts.id}" />                                                                  
+                    </p:selectOneMenu> 
+                    
+                    <h:outputLabel  value="Descripción de la Pregunta " />
+                    <p:inputTextarea  id="inputNombreVar" rows="3" cols="60"  value="#{indicadorView.preguntasNueva.descripcion}"/>
+
+                    
+                   
+                    <f:facet name="footer">
+                        <p:commandButton styleClass="btn" style="top:5px; margin-left:180px;" value="Guardar" update=":formleft:tree,:formContent" actionListener="#{indicadorView.guardar}"    icon="ui-icon-disk" oncomplete="NuevaPregunta.hide()"/>
+                        <p:commandButton styleClass="btn" style="top:5px;margin-left:20px;" value="Cancelar" type="button" onclick="NuevaPregunta.hide()" />
+                    </f:facet> 
+
+                </p:panelGrid>
+            </p:scrollPanel>
+        </p:dialog> 
+    </h:form>    
+
+</html>
+

@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:form id="formContent">
+        <p:growl  id="growl" showDetail="true" sticky="true" life="3000"  />  
+        <p:tabView id="tabPreguntas">
+            <p:tab id="tab1" title="Información">
+                
+                <p:panelGrid columns="2"  style="width:800px; height:100px">
+
+                    <f:facet name="header" >
+                        Administración de Preguntas
+                        <p:toolbar id="tool">
+                            <p:toolbarGroup align="left">
+                                
+                                <c:if test="#{indicadorView.disableIndicador.equals('true')}">
+                                    <p:commandButton  update=":formContent,:formContent:tabPreguntas:tool" title="Editar" icon="ui-icon-pencil" actionListener="#{indicadorView.editar}"/>
+                                </c:if>
+                                <c:if test="#{indicadorView.disableIndicador.equals('false')}">
+                                    <p:commandButton  update=":formContent,:formContent:tabPreguntas:tool" title="Guardar" icon="ui-icon-disk" actionListener="#{indicadorView.actualizar}"/>
+                                </c:if>
+                                <p:commandButton update=":formleft:tree,:formContent" title="Eliminar" icon="ui-icon-trash" actionListener="#{indicadorView.eliminar}"/>
+
+                            </p:toolbarGroup>
+                        </p:toolbar>
+                    </f:facet>
+                </p:panelGrid>
+
+                <p:panelGrid columns="2" style="width:800px; height:150px">      
+                    <c:if test="#{indicadorView.disableIndicador.equals('true')}">
+                        <h:outputLabel  value="Código de la Pregunta " />
+                        <h:outputLabel  style="font-weight:normal"   value="#{indicadorView.preguntasEdit.codigo}"   />
+
+                        <h:outputLabel  value="Pregunta " />
+                        <h:outputLabel  style="font-weight:normal" value="#{indicadorView.preguntasEdit.descripcion}"  />
+
+                        <h:outputLabel  value="Tipo Situación " />
+                        <h:outputLabel  style="font-weight:normal" value="#{indicadorView.preguntasEdit.tipoSituacion.descripcion}"  />
+
+
+
+                    </c:if>
+                    <c:if test="#{indicadorView.disableIndicador.equals('false')}">
+
+                        
+                        <h:outputLabel  value="Pregunta " />
+                        <p:inputTextarea  id="inputNombreVar" rows="3" cols="60"  value="#{indicadorView.preguntasEdit.descripcion}"/>
+
+                        
+                        <h:outputLabel  value="Tipo Situación " />
+                        
+                            <p:inplace label="#{indicadorView.preguntasEdit.tipoSituacion.descripcion}"  effectSpeed="fast"  >
+                                <p:selectOneMenu value="#{indicadorView.tipoSituacion}"  style="width:450px">
+                                    <f:selectItems  value="#{indicadorView.tiposSituacion}"  var="te"
+                                                    itemLabel="#{te.descripcion}" itemValue="#{te.id}" />                                                                  
+                                </p:selectOneMenu> 
+                            </p:inplace>
+                        
+
+                    </c:if>
+
+                </p:panelGrid>
+            </p:tab>
+
+            <p:tab id="tab2" title="Opciones de Respuesta">
+               <p:panelGrid columns="1"  >
+                <p:dataTable id="orTable" var="opcionRespuesta" value="#{indicadorView.listOR}" style="width:800px; height:400px">
+                 
+
+                <p:column headerText="Orden" style="width:24%">
+                    <h:outputText value="#{opcionRespuesta.orden}" />
+                </p:column>
+                <p:column   headerText="Respuesta"  >
+                    <h:outputText value="#{opcionRespuesta.descripcion}"/>
+                </p:column>
+                
+
+                <p:column style="width:15%">
+                    <p:commandButton id="editarButton" update=":formActualizar:display" oncomplete="PF('orDialog').show()" icon="ui-icon-search" title="Actualizar">
+                        <f:setPropertyActionListener value="#{opcionRespuesta}" target="#{indicadorView.opcionRSelected}" />
+                    </p:commandButton>
+
+                    <p:commandButton id="eliminarButton" update=":formContent:growl,:formContent:tabPreguntas:orTable" action="#{indicadorView.eliminarOR()}" icon="ui-icon-trash" title="View">
+                        <f:setPropertyActionListener value="#{opcionRespuesta}" target="#{indicadorView.opcionRSelected}" />
+                    </p:commandButton>
+                </p:column>
+                <f:facet name="footer"> 
+                    <p:commandButton value="Agregar" update=":formNuevo" type="button" onclick="orAdd.show();" />                                    
+                </f:facet>
+            </p:dataTable>
+                </p:panelGrid>
+
+
+            </p:tab>
+        </p:tabView>
+    </h:form> 
+    
+    <h:form id="formActualizar">
+            
+            <p:dialog header="Editar Opción de Respuesta" widgetVar="orDialog" resizable="false" id="instDlg"
+                      showEffect="fade" hideEffect="explode" modal="true">
+                <p:scrollPanel style="width:530px;height:260px" mode="native">
+                 <h:panelGrid id="display" columns="2" cellpadding="6" >
+
+                   
+                    <h:outputLabel  value="Orden" />                          
+                    <p:inputText value="#{indicadorView.opcionRSelected.orden}" size="58"
+                                 required="true" label="Nombre" requiredMessage="El orden el Obligatorio" />
+
+                    <h:outputLabel value="Descripción" />
+                    <p:inputTextarea   rows="3" cols="60"  value="#{indicadorView.opcionRSelected.descripcion}"/>
+
+                     
+
+                    <f:facet name="footer">
+
+                        <p:commandButton styleClass="btn" style="top:5px; margin-left:80px;" value="Guardar" update=":formNuevo,:formContent:growl,:formContent:tabPreguntas:orTable" action="#{indicadorView.actualizarOR()}" oncomplete="orDialog.hide()" />
+                        <p:commandButton styleClass="btn" style="top:5px; margin-left:20px;" value="Cancelar" type="button" onclick="orDialog.hide()" />
+                    </f:facet>
+                </h:panelGrid> 
+                    </p:scrollPanel>
+            </p:dialog>
+ 
+        </h:form> 
+
+    
+    <h:form id ="formNuevo">
+            <p:dialog header="Nueva Opción de Respuesta" widgetVar="orAdd" resizable="false" modal="true" showEffect="fade" hideEffect="explode"> 
+                <p:scrollPanel style="width:500px;height:230px" mode="native">
+                <h:panelGrid columns="2" cellpadding="6" >
+
+                   
+                    
+                    <h:outputLabel  value="Orden" />                          
+                    <p:inputText value="#{indicadorView.orNueva.orden}" size="58"
+                                 required="true" label="Nombre" requiredMessage="El orden el Obligatorio" />
+
+                    <h:outputLabel value="Descripción" />
+                    <p:inputTextarea  id="inputNombreVar" rows="3" cols="60"  value="#{indicadorView.orNueva.descripcion}"/>
+
+                    
+
+                    
+
+                    <f:facet name="footer">
+
+                        <p:commandButton styleClass="btn" style="top:5px; margin-left:80px;" value="Crear" update=":formNuevo,:formContent:growl,:formContent:tabPreguntas:orTable" action="#{indicadorView.guardar()}" oncomplete="orAdd.hide()" />
+                        <p:commandButton styleClass="btn" style="top:5px; margin-left:30px;" value="Cancelar" type="button" onclick="orAdd.hide()" />
+                    </f:facet>
+                </h:panelGrid> 
+</p:scrollPanel>
+            </p:dialog> 
+        </h:form>
+
+</html>
+

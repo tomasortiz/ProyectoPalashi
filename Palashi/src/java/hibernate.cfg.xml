@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.OracleDialect</property>
+        <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
+        <property name="hibernate.connection.url">jdbc:oracle:thin:@54.187.36.111:1521:XE</property>
+        <property name="hibernate.connection.username">palashi</property>
+        <property name="hibernate.connection.password">palashi</property>
+        <mapping class="com.amclos.model.Funcion" />
+        <mapping class="com.amclos.model.FuncionPerfil" />
+        <mapping class="com.amclos.model.FuncionPerfilPK" />
+        <mapping class="com.amclos.model.Indicador" />
+        <mapping class="com.amclos.model.Institucion" />
+        <mapping class="com.amclos.model.InstitucionVariable" />
+        <mapping class="com.amclos.model.InstitucionVariablePK" />
+        <mapping class="com.amclos.model.Menu" />
+        <mapping class="com.amclos.model.MenuPerfil" />
+        <mapping class="com.amclos.model.MenuPerfilPK" />
+        <mapping class="com.amclos.model.OpcionesRespuesta" />
+        <mapping class="com.amclos.model.Parametro" />
+        <mapping class="com.amclos.model.Perfil" />
+        <mapping class="com.amclos.model.Preguntas" />
+        <mapping class="com.amclos.model.Respuesta" />
+        <mapping class="com.amclos.model.RespuestaPK" />
+        <mapping class="com.amclos.model.Riesgos" />
+        <mapping class="com.amclos.model.RiesgosPK" />
+        <mapping class="com.amclos.model.SubIndicador" />
+        <mapping class="com.amclos.model.Tipos" />
+        <mapping class="com.amclos.model.Usuario" />
+        <mapping class="com.amclos.model.UsuarioPerfil" />
+        <mapping class="com.amclos.model.UsuarioPerfilPK" />
+        <mapping class="com.amclos.model.Variable" />
+        <mapping class="com.amclos.model.ZonaGeografica" />
+    </session-factory>
+</hibernate-configuration>

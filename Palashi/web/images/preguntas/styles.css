@@ -1,0 +1,177 @@
+* {margin:0;padding:0}
+img {padding:0;border:none}
+a {color:#fff}
+a:hover {text-decoration:none;color:#fff}
+h3 {font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#013b03;font-weight:bold}
+h4 {font-family:Arial,Helvetica,sans-serif;font-size:18px;color:CEF6F5;font-weight:normal;padding-bottom:10px}
+h5 {font-family:Arial,Helvetica,sans-serif;font-size:18px;color:#013b03;font-weight:normal;padding-bottom:4px}
+h6 {font-family:Arial,Helvetica,sans-serif;font-size:18px;font-weight:bold;color:#fff;text-transform:uppercase;height:32px;padding-left:30px;padding-top:13px;padding-bottom:5px;background:url(images/blog_title.png) no-repeat left top}
+body {font-family:Arial, Helvetica, sans-serif;font-size:12px;line-height:20px;color:#fff;background:CEF6F5 url(images/bg.jpg) repeat-x top}
+.inner_copy, .inner_copy a {border:0;float:right;background:#fff;color:#f00;width:50%;line-height:10px;font-size:10px;margin:-220% 0 0 0;overflow:hidden;padding:0}
+#top_header {width:1159px;height:169px;margin:0 auto;background:url(images/top_header_bg.jpg) no-repeat left top}
+#link_bar {height:28px;padding-left:100px}
+#link_bar ul {padding-left:0;list-style:none;height:28px}
+#link_bar ul li {display:inline;padding:6px 0px 0px 3px;height:33px}
+#linl_bar ul li img {height:16px;width:16px;display:block;float:left}
+#logo {height:51px;text-align:left;padding-top:60px;padding-left:830px}
+#logo p a {font-size:30px;color:#fff;font-weight:bold;text-decoration:none}
+#logo .small_logo a {font-size:12px;font-weight:normal;text-decoration:none;padding-left:70px}
+#header_border_top {background:url(images/header_border_top.jpg) no-repeat top left;height:30px;width:979px;margin:0 auto}
+#preview_bg {background:url(images/preview_bg.jpg) repeat-x top;height:306px}
+#menu_bg {background:url(images/menu_bg.jpg) repeat-x top}
+#menu {width:979px;height:54px;margin:0 auto;padding-left:30px}
+#menu ul {list-style:none;padding-left:0}
+#menu li {display:inline;padding-left:0}
+#menu a {font-family:Arial,Helvetica,sans-serif;font-size:18px;color:#fff;text-align:center;font-weight:bold;text-decoration:none;width:135px;height:39px;display:block;float:left;padding-top:15px}
+#menu .active , #menu ul li a:hover {color:#dad960}
+#preview_block {width:922px;margin:0 auto}
+.p_button_left {width:49px;float:left;padding-top:130px}
+.p_center {float:left;width:820px}
+.p_con_left {width:425px;float:left;padding-top:45px;padding-left:15px}
+.normal {font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:normal;color:#2f2f2f}
+.green {font-family:Arial,Helvetica,sans-serif;font-size:18px;color:#026504;font-weight:normal}
+.start_now {text-align:right;height:33px;margin-right:50px;padding-right:12px;padding-top:14px;background:url(images/send.png) no-repeat right;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#fff;font-weight:bold;text-transform:uppercase}
+.read_more {text-align:right;height:23px;padding-right:14px;padding-top:4px;background:url(images/send.png) no-repeat right top;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#fff;font-weight:bold;text-transform:uppercase}
+.order_now {text-align:right;height:23px;padding-right:14px;padding-top:4px;margin-right:10px;background:url(images/send.png) no-repeat right top;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#fff;font-weight:bold;text-transform:uppercase}
+.pad .read_more a, .p_con_left .read_more a, .services_box .order_now a, .start_now a {text-decoration:none;color:#000}
+.p_con_right {width:320px;float:left;padding-top:40px;padding-left:40px}
+.p_con_right img {border:3px solid #fff}
+.img_bor {border:3px solid #fff;margin-bottom:10px}
+.p_button_right {width:49px;float:left;padding-top:130px}
+#header_bottom {width:979px;margin:0 auto;clear:both;background:url(images/header_bg.png) repeat-y left}
+#header_bottom p {padding:32px 45px 0px 45px}
+.header_bor_bot {background:url(images/header_bor_bot.png) no-repeat top;height:40px;width:979px;margin:0 auto}
+#content {width:978px;margin:0 auto}
+.column_box {padding-top:20px}
+.column_box p, .col_bg p {color:CEF6F5;padding-top:0}
+.news_text p {color:CEF6F5;padding-top:0;padding-bottom:10px}
+.column_box ul, .services_box ul, .blog_right_bg ul {list-style:none;padding-left:20px;padding-top:10px;padding-bottom:5px}
+#contactus_left ul {list-style:none;padding-left:20px}
+.services_box ul {padding-top:30px}
+.services_col1 {width:306px;float:left;padding-left:10px}
+.services_col2 {width:295px;float:left;padding-left:30px}
+.services_col3 {padding-top:20px;width:315px;float:left;padding-left:10px}
+.ul_top li {background:url(images/ls.png) no-repeat 0px 7px;padding-left:12px}
+.column_box a, .col_bg a, .blog_box a {color:#013b03;font-weight:bold;text-decoration:none}
+.link_center {text-align:center;padding-bottom:15px}
+.column_box h2 {font-family:Arial, Helvetica, sans-serif;font-size:18px;color:#fff;font-weight:bold;padding-bottom:10px}
+.col1, .col2, .col3 {width:310px;float:left}
+.pad {padding-left:16px;padding-right:16px;padding-top:10px;color:#000;text-align:justify;}
+.num {background:url(images/num_bg.png) no-repeat top left;float:left;width:31px;height:34px;color:CEF6F5;font-family:Arial, Helvetica, sans-serif;font-size:30px;font-weight:bold;text-align:center;padding-top:9px;margin-right:15px;margin-bottom:10px;margin-top:5px}
+.col1, .col2 {padding-right:23px}
+.title_bg {background:url(images/title_bg.png) no-repeat top left;width:979px;height:45px;padding-bottom:10px;margin-top:12px}
+.title_bg img {padding-top:6px;padding-left:6px}
+.index_title {background:url(images/index_title.png) no-repeat top left;width:310px;height:46px;padding-bottom:10px}
+.index_title h2 {font-family:Arial,Helvetica,sans-serif;font-size:18px;font-weight:bold;color:#000;padding-top:13px}
+.num_title {background:url(images/title5.png) no-repeat top left;width:29px;height:30px;float:left;margin-top:6px;margin-left:7px;padding-right:10px}
+.num_title p {font-family:Arial,Helvetica,sans-serif;font-size:24px;color:#fff;text-align:center;padding-top:6px}
+.portfolio {background:url(images/title_bg.png) no-repeat top left;width:979px;height:33px;padding-top:12px;padding-left:40px;padding-bottom:10px;margin-top:12px}
+.aboutus {background:url(images/title_bg.png) no-repeat top left;width:979px;height:47px;margin-bottom:8px;margin-top:12px}
+.service_title {background:url(images/title_bg.png) no-repeat top left;width:979px;height:47px;margin-bottom:8px;margin-top:12px}
+.service_title h2 {font-family:Arial,Helvetica,sans-serif;font-size:18px;font-weight:bold;color:#fff;padding-top:13px}
+.aboutus h2 {font-family:Arial,Helvetica,sans-serif;font-size:18px;font-weight:bold;color:#fff;padding-top:13px}
+.col_bg {background: #e8e8e8;padding-left:6px;padding-right:6px}
+.col_grad_top {background:url(images/col_grad_top.png) no-repeat left top;min-height:203px}
+.col_grad_bot {background:url(images/col_grad_bot.png) no-repeat right bottom}
+.col_bg_top {background:url(images/col_bg_top.png) no-repeat top;height:13px}
+.col_bg_bot {background:url(images/col_bg_bot.png) no-repeat top;height:13px}
+.con_bg_top {background:url(images/con_bg_top.png) no-repeat top left;height:13px}
+#blog_left {width:690px;float:left}
+#blog_right {width:282px;float:right;padding-top:8px}
+.blog_right_top {background:url(images/blog_right_top.png) no-repeat top left;height:6px}
+.blog_right_bg {background:#fff}
+.blog_right_bg p {color:#CEF6F5}
+.blog_right_bg a {text-decoration:none}
+.blog_right_bot {background:url(images/blog_right_bot.png) no-repeat top left;height:6px;padding-bottom:20px}
+#calendar table {width:200px;text-align:center;color:#CEF6F5;margin:0 auto}
+#calendar tbody td {border:1px solid #F1F1F1;width:34px}
+#calendar #prev {text-align:left}
+#calendar #next {text-align:right}
+#calendar a {text-decoration:none;font-weight:bold;color:#356f37}
+#calendar #now {background:#696969;border:1px solid #f00;font-weight:bold;color:#fff}
+.news_top {clear:both}
+.news_top_left {background:url(images/date_bg.png) no-repeat;width:76px;height:65px;float:left;text-align:center}
+.date_day {color:#013b03;font-family:Arial,Helvetica,sans-serif;font-size:30px;font-weight:bold;padding-top:18px}
+.date_month {color:#013b03;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:normal;text-transform:uppercase}
+.news_top_right {float:left;padding-left:10px;width:582px}
+.news_title {border-bottom:1px dotted #013b03}
+.tegs_hr {border-bottom:1px dotted #013b03;padding-top:5px}
+.publ {float:left}
+.com {float:right;background:url(images/coments_bg.png) no-repeat 0px 5px;padding-left:15px;padding-right:5px}
+.gray {font-size:12px;color:#666666;font-weight:bold}
+.news_text {clear:both;padding-left:20px;padding-top:20px;padding-right:15px;padding-bottom:20px;line-height:16px}
+.tegs_box {clear:both;padding-top:5px}
+.blog_bg_top {background:url(images/blog_bg_top.png) no-repeat top left;height:13px;margin-top:10px}
+.blog_bg_bot {background:url(images/blog_bg_bot.png) no-repeat top;height:13px}
+.blog_bg {background: #e8e8e8;padding-right:6px}
+.blog_grad_top {background:url(images/col_grad_top.png) no-repeat 6px 0px;min-height:203px}
+.blog_grad_bot {background:url(images/col_grad_bot.png) no-repeat right bottom}
+.blog_text_num {background:url(images/blog_num_bg.png) no-repeat left;height:34px;width:51px;text-align:center;padding-top:13px;padding-right:13px;margin-bottom:10px;float:left}
+.text_num {color:CEF6F5;font-size:30px}
+.project_box {width:309px;float:left;padding-left:10px;padding-bottom:8px}
+.aboutus_bg {background:#fff;border:1px solid #d2d2d2;padding:15px;color:CEF6F5}
+.about_col1 {float:left;width:315px}
+.about_col2 {float:left;width:230px}
+.user_box {padding-top:10px}
+#contact_bg {background:url(images/contact_bg.png) repeat-y center}
+#contactus_left {width:587px;float:left;padding:20px 50px 0px 20px}
+#contactus_right {width:270px;float:left;padding:10px 10px 0px 20px}
+.con_hr {background:url(images/con_hr.png) repeat-x top;height:1px;padding-bottom:10px}
+.con_bg_bot {background:url(images/con_bg_bot.png) no-repeat top;height:13px}
+.col_hr_line {background:url(images/col_hr_line.png) no-repeat center;height:2px;padding-top:10px;padding-bottom:10px}
+.con_white_hr {border-bottom:1px solid #fff;height:1px;clear:both;padding-top:25px}
+.col2 .bg_black {color:#fff;padding-top:20px;padding-bottom:20px}
+.ul_bot li {background:url(images/ls1.png) no-repeat 0px 7px;padding-left:12px}
+.ul_bot a {color:#019c06;font-weight:bold}
+#log {}
+#log fieldset {border:none}
+#log label {font-family:Arial, Helvetica, sans-serif;font-size:12px;font-weight:normal;color:#fff;text-align:left;padding-left:10px}
+#log input {margin-bottom:5px}
+#login-submit, #contact-submit {width:117px;height:27px;background:url(images/send.png);background-repeat:no-repeat;background-position:left top;border:none;float:right;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:#fff;text-transform:uppercase}
+#text1, #text2 {width:280px;height:27px;padding-top:0;padding-left:10px;padding-right:12px;border:none;background:url(images/input_bg.png);background-repeat:no-repeat;background-position:left top;color:CEF6F5;padding-bottom:5px}
+#text_mess {width:284px;height:115px;padding-top:4px;padding-left:10px;padding-right:10px;padding-bottom:10px;border:none;background:url(images/text_mess.png);background-repeat:no-repeat;background-position:left top;color:CEF6F5;padding-bottom:5px;margin-bottom:10px}
+#contact_form fieldset {border:none}
+#contact_form label {font-family:Arial, Helvetica, sans-serif;font-size:12px;font-weight:normal;color:CEF6F5;text-align:left;padding-left:10px}
+#contact_form input {margin-bottom:5px}
+#con_name, #con_email, #con_website {width:566px;height:27px;padding-top:0;padding-left:10px;padding-right:12px;border:none;background:url(images/con_pole.png);background-repeat:no-repeat;background-position:left top;color:CEF6F5;padding-bottom:5px}
+#con_mess {width:568px;height:113px;padding-top:4px;padding-left:10px;padding-right:10px;padding-bottom:10px;border:none;background:url(images/con_mess.png);background-repeat:no-repeat;background-position:left top;color:CEF6F5;padding-bottom:5px;margin-bottom:10px}
+#footer {clear:both;width:979px;margin:0 auto;background:url(images/footer.gif) no-repeat right top;height:60px;margin-top:15px;padding-bottom:15px}
+#footer p {}
+/* Header Scroller */
+/* jQuery Coda-Slider v2.0 - http://www.ndoherty.biz/coda-slider
+Copyright (c) 2009 Niall Doherty
+This plugin available for use in all personal or commercial projects under both MIT and GPL licenses. */
+/* Insignificant stuff, for demo purposes */
+.panel h2.title {margin-bottom:10px }
+noscript div {background:#ccc;border:1px solid #900;margin:20px 0;padding:15px }
+/* Most common stuff you'll need to change */
+.coda-slider-wrapper {padding:0px }
+.coda-slider {background:none}
+/* Use this to keep the slider content contained in a box even when JavaScript is disabled */
+.coda-slider-no-js .coda-slider {height:308px;overflow:hidden !important;padding-right:20px }
+/* Change the width of the entire slider (without dynamic arrows) */
+.coda-slider, .coda-slider .panel {width:835px } 
+/* Change margin and width of the slider (with dynamic arrows) */
+.coda-slider-wrapper.arrows .coda-slider, .coda-slider-wrapper.arrows .coda-slider .panel {width:805px }
+.coda-slider-wrapper.arrows .coda-slider {margin:0px }
+/* Arrow styling */
+.coda-nav-left a {background:url(images/p_but_left.png) no-repeat 0px;color:#fff;width:49px;height:239px;text-indent:-9000em}
+.coda-nav-right a {background:url(images/p_but_right.png) no-repeat 0px;color:#fff;width:49px;height:239px;text-indent:-9000em}
+/* Tab nav */
+.coda-nav ul li a.current {background:#39c }
+/* Panel padding */
+.coda-slider .panel-wrapper {padding:0px }
+/* Preloader */
+.coda-slider p.loading {padding:20px;text-align:center }
+/* Don't change anything below here unless you know what you're doing */
+/* Tabbed nav */
+.coda-nav ul {clear:both;display:block;margin:auto;overflow:hidden }
+.coda-nav ul li {display:none }
+.coda-nav ul li a {background:CEF6F5;color:#fff;display:block;float:left;margin-right:1px;padding:3px 6px;text-decoration:none }
+/* Miscellaneous */
+.coda-slider-wrapper {clear:both;overflow:hidden }
+.coda-slider {float:left;overflow:hidden;position:relative }
+.coda-slider .panel {display:block;float:left }
+.coda-slider .panel-container {position:relative }
+.coda-nav-left, .coda-nav-right {float:left }
+.coda-nav-left a, .coda-nav-right a {display:block;text-align:center;text-decoration:none }

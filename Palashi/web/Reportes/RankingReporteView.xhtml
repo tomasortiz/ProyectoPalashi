@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../TemplateModulo.xhtml">
+
+    <ui:define name="MenuIzquierda">
+        <div class="panel panel-primary" style="width:100%">
+            <div class="panel-heading">                    
+                Modulo de Reportes
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-sidebar" style="font-size: smaller;width:125%">             
+                    <li>
+                        <a href="mapaRiesgo.xhtml">Mapa de Riesgos</a>
+                    </li>
+                    <li>
+                        <a href="ArbolReporteView.xhtml">Reportes de Desempeño</a>
+                    </li>
+                    <li>
+                        <a href="ComparativosView.xhtml">Reportes Comparativos</a>
+                    </li>
+                    <li class="active">
+                        <a href="RankingReporteView.xhtml">Ranking Municipios</a>
+                    </li>
+                    <li>
+                        <a href="InstitucionesReporteView.xhtml">Instituciones</a>                                
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </ui:define>
+    <ui:define name="Contenido">
+        <h:form id="FContenido">
+            <h:panelGrid id="contenido" >
+                <h:panelGrid columns="2" style="width:400px; height:50px" >
+                    Periodo 
+                    <p:selectOneMenu value="#{rankingView.periodo}"  style="width:300px" valueChangeListener="#{rankingView.periodoHandleChange}">
+                        <f:selectItems value="#{rankingView.lPeriodos}"  var="te" 
+                                       itemLabel="#{te.descripcion}" itemValue="#{te.id}" /> 
+                        <p:ajax update="FContenido:orTable" />
+                    </p:selectOneMenu>
+                </h:panelGrid>
+
+                <p:dataTable id="orTable" var="ranking" value="#{rankingView.lRanking}" style="width:800px; height:400px">
+                    <p:column sortBy="#{ranking.id}" headerText="Puesto" style="width:24%">
+                        <h:outputText value="#{ranking.id}" />
+                    </p:column>
+                    <p:column  sortBy="#{ranking.descripcion}" headerText="Municipio"  >
+                        <h:outputText value="#{ranking.descripcion}"/>
+                    </p:column>
+
+                    <p:column  sortBy="#{ranking.valor}" headerText="Indice Gestión del Riesgo"  >
+                        <h:outputText value="#{ranking.valor}"/>
+                    </p:column>
+
+
+                </p:dataTable>
+
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>

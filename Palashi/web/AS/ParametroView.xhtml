@@ -1,0 +1,147 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 template="../TemplateModulo.xhtml">
+
+
+
+    <ui:define name="MenuIzquierda">
+        <div class="panel panel-primary" style="width:100%">
+            <div class="panel-heading">                    
+                Administración del Sistema
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-sidebar" style="font-size: smaller;width:125%">            
+                    <li>
+                        <a href="ZonaGeograficaView.xhtml">Zonas Geográficas</a>
+                    </li>
+                    <li>
+                        <a href="InstitucionView.xhtml">Instituciones</a>
+                    </li>
+                    <li class="active">
+                        <a href="ParametroView.xhtml">Parametros del Sistema</a>
+                    </li>
+                    <li>
+                        <a href="TiposView.xhtml">Tipos</a>
+                    </li>
+                    <li>
+                        <a href="PerfilView.xhtml">Perfiles de Usuario</a>                                
+                    </li>
+                    <li>
+                        <a href="UsuarioView.xhtml">Usuarios</a>                                
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </ui:define>
+
+    <ui:define name="Contenido">
+          <h:form id="validarSession">
+               <h:inputHidden  rendered="#{parametroView.login.validarSession}" value="#{parametroView.login.validateSession('ParametroView.xhtml')}" />
+               <h:inputHidden value="#{parametroView.init()}"/>
+          </h:form>
+
+
+        <h:form id="form5">
+            <p:growl id="msgs" showDetail="true" sticky="true"  life ="3000"/> 
+
+
+            <p:dataTable id="inst" var="parametro" value="#{parametroView.listParametros}">
+                <f:facet name="header"  >
+                    Parámetros
+                </f:facet>
+
+                <p:column headerText="Codigo" style="width:24%">
+                    <h:outputText value="#{parametro.idParametro}" />
+                </p:column>
+                <p:column sortBy="#{parametro.nombre}"  headerText="Nombre"  >
+                    <h:outputText value="#{parametro.nombre}"/>
+                </p:column>
+
+                <p:column sortBy="#{parametro.nombre}"  headerText="Nombre"  >
+                    <h:outputText value="#{parametro.valor}"/>
+                </p:column>
+
+
+
+
+                <p:column style="width:20%">
+                    <p:commandButton id="editarButton" update=":formActualizar:display" oncomplete="PF('parametroDialog').show()" icon="ui-icon-search" title="Actualizar">
+                        <f:setPropertyActionListener value="#{parametro}" target="#{parametroView.parametroSelected}" />
+                    </p:commandButton>
+
+                    <p:commandButton id="eliminarButton" update=":form5" action="#{parametroView.eliminar()}" icon="ui-icon-trash" title="View">
+                        <f:setPropertyActionListener value="#{parametro}" target="#{parametroView.parametroSelected}" />
+                    </p:commandButton>
+                </p:column>
+                <f:facet name="footer"> 
+                    <p:commandButton value="Agregar" update=":form5" type="button" onclick="parametroAdd.show();" />                                    
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+        <h:form id="formActualizar">
+
+            <p:dialog header="Actualizar Parámetros" widgetVar="parametroDialog" resizable="false" id="instDlg"
+                      showEffect="fade" hideEffect="explode" modal="true">
+
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">
+
+                    <h:outputLabel  value="*Código:" />
+                    <h:outputLabel  value="#{parametroView.parametroSelected.idParametro}" />
+                    <h:outputLabel  value="*Nombre:" />                          
+                    <p:inputText value="#{parametroView.parametroSelected.nombre}"
+                                 required="true" label="Nombre" requiredMessage="Nombre del Parámetro es obligatorio." />
+                    <h:outputLabel  value="*Valor:" />  
+                    <p:inputText value="#{parametroView.parametroSelected.valor}"
+                                 required="true" label="Nombre" requiredMessage="Valor es obligatorio." />
+
+
+                    <f:facet name="footer">                              
+                        <h:commandButton id="parametroEditButton1" value="Guardar"
+                                         action="#{parametroView.actualizar()}" />
+                        <h:commandButton style="margin-left:30px;" value="Cancelar" type="button" onclick="parametroDialog.hide();" />
+                    </f:facet>
+
+                </h:panelGrid>
+
+            </p:dialog>
+
+        </h:form> 
+
+        <!--Fin tabla+ btns de agregar, editar, eliminar -->
+
+        <h:form>
+            <p:dialog header="" widgetVar="parametroAdd" resizable="false" modal="true" showEffect="fade" hideEffect="explode"> 
+                <h:panelGrid columns="2" cellpadding="6" >
+
+                    <f:facet name="header">
+                        <legend>Registrar Parámetro</legend>
+                    </f:facet>
+
+
+                    <h:outputLabel  value="Código:" />
+                    <p:inputText value="#{parametroView.parametro.idParametro}"
+                                 required="true" label="Codigo" requiredMessage="El CÃ³digo es obligatorio" />
+
+                    <h:outputLabel  value="*Nombre:" />                          
+                    <p:inputText value="#{parametroView.parametro.nombre}" />
+
+                    <h:outputLabel  value="*Valor:" />                          
+                    <p:inputText value="#{parametroView.parametro.valor}" />
+                    <f:facet name="footer">
+
+                        <p:commandButton value="Crear" update=":form5" action="#{parametroView.guardar()}" oncomplete="parametroAdd.hide()" />
+                        <h:commandButton style="margin-left:30px;" value="Cancelar" type="button" onclick="parametroAdd.hide()" />
+                    </f:facet>
+                </h:panelGrid> 
+
+            </p:dialog> 
+        </h:form>      
+
+
+    </ui:define>
+
+</ui:composition>
+

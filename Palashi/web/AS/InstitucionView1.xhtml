@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>  
+        <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png"/>
+        
+
+        <title>Palashi - Sistema para la Gestión de Riesgos Costeros</title>
+
+        <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+
+
+        <!-- Bootstrap core CSS -->
+        <link href="css/bootstrap.css" rel="stylesheet"/>
+
+        <!-- Custom styles for this template -->
+        <link href="jumbotron.css" rel="stylesheet"/>
+
+        <!-- Just for debugging purposes. Don't actually copy this line! -->
+        <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+    </h:head>
+<h:body> 
+<!--Inicia Baarra de menú superior-->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Palashi</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="home.html">Maps</a></li>
+                    <li><a href="tabla.html"> Indicadores Históricos</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Municipio <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Gestión</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Brandon</a></li>
+
+                    <li><a href="#">Ayuda</a></li>
+                    <li><a href="#">Contacto</a></li>
+
+
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+<!--fin barra menu-->
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="jumbotron">
+            <div class="container">
+
+
+
+                <br></br>
+<!--*****************************************************************************-->
+
+<h:form id="form5">
+ 
+    <p:growl id="msgs" showDetail="true" />
+ 
+    <p:dataTable id="inst" var="institucionvar" value="#{institucionView.listInstituciones}">
+ 
+        <f:facet name="header">
+                        Instituciones
+                         
+                    </f:facet>
+        <p:column headerText="Codigo" style="width:24%">
+            <h:outputText value="#{institucionvar.codigo}" />
+        </p:column>
+        <p:column sortBy="#{institucionvar.nombre}"  headerText="Nombre"  >
+                        #{institucionvar.nombre}
+                    </p:column>
+        <p:column style="width:300px;" width="300" filterStyle="width:280px" sortBy="#{institucion.repLegal}" headerText="Rep. Legal" >
+                        #{institucionvar.repLegal}
+                    </p:column>
+
+                    <p:column style="width:180px;" width="180" filterStyle="width:100px" sortBy="#{institucion.telefono}" headerText="Teléfono" >
+                        <center>
+                           #{institucionvar.telefono}                           
+                        </center>            
+                    </p:column>
+                    
+                    <p:column style="width:300px;" width="300" filterStyle="width:100px" sortBy="#{institucion.email}" headerText="E-mail" >
+                        <center>
+                           #{institucionvar.email}                           
+                        </center>            
+                    </p:column>
+        <p:column style="width:150px;" width="100" filterStyle="width:100px" sortBy="#{institucion.direccion}" headerText="Dirección" >
+                        #{institucionvar.direccion}
+                    </p:column>
+                
+                    <p:column style="width:150px;" width="100" filterStyle="width:100px" sortBy="#{institucion.numEmpleados}" headerText="No.Emp" >
+                        #{institucionvar.numEmpleados}
+                    </p:column>
+ 
+        <p:column style="width:4%">
+                <p:commandButton id="editarButton" update=":form5:display" oncomplete="PF('institucionDialog').show()" icon="ui-icon-search" title="View">
+                    <f:setPropertyActionListener value="#{institucionvar}" target="#{institucionView.institucionSelected}" />
+            </p:commandButton>
+            
+            <p:commandButton id="eliminarButton" update=":form5" action="#{institucionView.eliminar()}" icon="ui-icon-trash" title="View">
+                    <f:setPropertyActionListener value="#{institucionvar}" target="#{institucionView.institucionSelected}" />
+            </p:commandButton>
+        </p:column>
+        <f:facet name="footer"> 
+                        <p:commandButton value="Agregar" type="button" onclick="institucionAdd.show();" />                                    
+                    </f:facet>
+
+ 
+    </p:dataTable>
+ 
+    <p:dialog header="Editar Institución" widgetVar="institucionDialog" resizable="false" id="carDlg"
+                showEffect="fade" hideEffect="explode" modal="true">
+ 
+        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">
+ 
+            
+ 
+            <h:outputText value="Codigo:" />
+            <h:inputText value="#{institucionView.institucionSelected.codigo}" style="font-weight:bold"/>
+ 
+            <h:outputLabel  value="Nombre:" />
+                            <h:inputText value="#{institucionView.institucionSelected.nombre}"  
+                                         id="editNombre" required="false" label="Nombre" /> 
+            <h:outputLabel  value="Rep. Legal:" />  
+                            <h:inputText value="#{institucionView.institucionSelected.repLegal }"
+                                             id="editRepLegal" required="false" label="repLegal" />
+                            <h:outputLabel  value="Teléfono:" />  
+                            <h:inputText value="#{institucionView.institucionSelected.telefono}"
+                                             id="editTelefono" required="false" label="Telefono" />
+
+                            <h:outputLabel  value="E-mail:" />  
+                            <h:inputText value="#{institucionView.institucionSelected.email}"
+                                             id="editEmail" required="false" label="Email" />  
+                            <h:outputLabel  value="Dirección:" />  
+                            <h:inputText value="#{institucionView.institucionSelected.direccion}"
+                                             id="editDireccion" required="false" label="Direccion" />                            
+                            
+                            <h:outputLabel  value="No. Empleados:" />  
+                            <p:inputText value="#{institucionView.institucionSelected.telefono}"
+                                             id="editNoEmpleados1" required="false" label="NoEmpleados" />                            
+                            
+                            <f:facet name="footer">                              
+                            <h:commandButton id="parametroEditButton1" value="Guardar"
+                                                 action="#{institucionView.actualizar()}" actionListener="#{institucionView.msgEditado()}" />
+                                <h:commandButton style="margin-left:30px;" value="Cancelar" type="button" onclick="institucionEdit.hide();" />
+                            </f:facet>
+                                            
+        </h:panelGrid>
+ 
+    </p:dialog>
+ 
+                   
+                    
+                
+              
+                
+</h:form>
+                
+<h:form>
+     <p:dialog header="" widgetVar="institucionAdd" resizable="false" modal="true" showEffect="fade" hideEffect="explode"> 
+                    
+                        
+                        <h:panelGrid columns="2" cellpadding="6" >
+
+                            <f:facet name="header">
+                                <legend>Registrar Institución</legend>
+                            </f:facet>
+                            
+                         
+                            <h:outputLabel  value="Código:" />
+                            <p:inputText value="#{institucionView.codigo}"
+                                          required="true" label="Codigo" requiredMessage="El CÃ³digo es obligatorio" />
+                           
+                            <h:outputLabel  value="Nombre:" />                          
+                            <p:inputText value="#{institucionView.nombre}"
+                                          required="true" label="Nombre" requiredMessage="Nombre del Empleado es obligatorio." />
+
+                            <h:outputLabel value="Rep. Legal:" />
+                            <p:inputText value="#{institucionView.repLegal}"
+                                         required="true" label="repLegal" requiredMessage="Representante legal obligatorio" />
+
+                           <h:outputLabel value="Teléfono:" />
+                           <p:inputText value="#{institucionView.telefono}"
+                                          required="true" label="Telefono" requiredMessage="Telefono obligatorio" />
+  
+                           <h:outputLabel value="E-mail:" />
+                           <p:inputText value="#{institucionView.email}"
+                                         required="true" label="Email" requiredMessage="Email obligatorio" />
+  
+                           <h:outputLabel value="Dirección:" />
+                           <p:inputText value="#{institucionView.direccion}"
+                                          required="true" label="Direccion" requiredMessage="Direccion obligatorio" />
+ 
+                           <h:outputLabel value="No. Empleados:" />
+                           <p:inputText value="#{institucionView.numEmpleados}"
+                                         required="true" label="numEmpleados" requiredMessage="N Empleadosobligatorio" />
+ 
+                            
+                      
+                            <f:facet name="footer">
+                                
+                                <p:commandButton value="Crear" update=":form5" action="#{institucionView.guardar()}"  />
+                                <h:commandButton style="margin-left:30px;" value="Cancelar" type="button" onclick="institucionAdd.hide()" />
+                            </f:facet>
+                        </h:panelGrid> 
+                    
+                </p:dialog> 
+</h:form>
+                
+                
+               
+                    
+            </div>
+        </div>
+        <div class="container">
+            <!-- Example row of columns -->
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>Indicadores Georerenciados</h2>
+                    <p>Podrás encontrar un mapa con la información de los indicadores y ubicar las zonas geograficas a las cuales se hace referencia</p>
+                  <p><a class="btn btn-default" href="#" role="button">View details;</a></p>
+                
+                 </div>
+                <div class="col-md-4">
+                    <h2>Información Historica</h2>
+                    <p>Se dispondrá de un evolutivo histórico de los indicadores de gestión</p>
+                    <p><a class="btn btn-default" href="#" role="button">View details ;</a></p>
+                </div>
+                <div class="col-md-4">
+                    <h2>Indicadores Tabulados y graficos</h2>
+                    <p>Encontraras graficos donde observar los resultados de los trabajo de campo realizados por el personal responsable de la gestión del riesgo</p>
+                    <p><a class="btn btn-default" href="#" role="button">View details;</a></p>
+                </div>
+            </div>
+
+            <hr/>
+
+            <footer>
+                <p>; Amclos 2013</p>
+            </footer>
+        </div> <!-- /container -->
+
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster 
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>-->
+        <script src="../../dist/js/bootstrap.min.js"></script>
+
+    </h:body>
+</html>

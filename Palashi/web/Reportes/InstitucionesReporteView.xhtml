@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../TemplateModulo.xhtml">
+
+    <ui:define name="MenuIzquierda">
+        <div class="panel panel-primary" style="width:100%">
+                <div class="panel-heading">                    
+                    Modulo de Reportes
+                </div>
+            <div class="panel-body">
+         <ul class="nav nav-sidebar" style="font-size: smaller;width:125%">             
+            <li>
+                <a href="mapaRiesgo.xhtml">Mapa de Riesgos</a>
+            </li>
+            <li>
+                <a href="ArbolReporteView.xhtml">Reportes de Desempeño</a>
+            </li>
+            <li>
+                <a href="ComparativosView.xhtml">Reportes Comparativos</a>
+            </li>
+            <li>
+                <a href="RankingReporteView.xhtml">Ranking Municipios</a>
+            </li>
+            <li class="active">
+                <a href="InstitucionesReporteView.xhtml">Instituciones</a>                                
+            </li>
+        </ul>
+                 </div>
+            </div>
+    </ui:define>
+    <ui:define name="Contenido">
+        <h:form id="Fcontenido" >
+            <h:panelGrid columns="2" style="width:400px; height:50px" >
+                Zona Geográfica
+                <p:selectOneMenu id="cbInst" value="#{institucionView.idZonas}"  style="width:225px"
+                                 valueChangeListener="#{institucionView.handleChange}" >
+
+                    <f:selectItems value="#{institucionView.clZonas}"  var="clZ"
+                                   itemLabel="#{clZ.descripcion}" itemValue="#{clZ.id}" />  
+                    <p:ajax update=":Fcontenido:inst" />
+                </p:selectOneMenu> 
+            </h:panelGrid>
+
+            <h:panelGrid id="contenido" style="width:800px" >
+
+                <p:dataTable id="inst" var="institucion" value="#{institucionView.listInstituciones}">
+                    <f:facet name="header"  >
+                        Instituciones
+                    </f:facet>
+
+                    <p:column headerText="Codigo" style="width:24%">
+                        <h:outputText value="#{institucion.codigo}" />
+                    </p:column>
+                    <p:column sortBy="#{institucion.nombre}"  headerText="Nombre"  >
+                        <h:outputText value="#{institucion.nombre}"/>
+                    </p:column>
+                    <p:column style="width:300px;" width="300" filterStyle="width:280px" sortBy="#{institucion.repLegal}" headerText="Rep. Legal" >
+                        <h:outputText value="#{institucion.repLegal}"/>
+                    </p:column>
+
+                    <p:column style="width:180px;" width="180" filterStyle="width:100px" sortBy="#{institucion.telefono}" headerText="Teléfono" >
+                        <center>
+                            <h:outputText value="#{institucion.telefono}"/>                           
+                        </center>            
+                    </p:column>
+
+                    <p:column style="width:300px;" width="300" filterStyle="width:100px" sortBy="#{institucion.email}" headerText="E-mail" >
+                        <center>
+                            <h:outputText  value="#{institucion.email}"   />                        
+                        </center>            
+                    </p:column>
+                    <p:column style="width:150px;" width="100" filterStyle="width:100px" sortBy="#{institucion.direccion}" headerText="Dirección" >
+                        <h:outputText value="#{institucion.direccion}" />
+                    </p:column>
+
+                    <p:column style="width:150px;" width="100" filterStyle="width:100px" sortBy="#{institucion.numEmpleados}" headerText="No.Emp" >
+                        <h:outputText value="#{institucion.numEmpleados}" />
+                    </p:column>
+
+
+
+                </p:dataTable>
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>

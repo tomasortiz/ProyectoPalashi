@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../TemplateIndicadores.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="MenuIzquierda">
+        <h:form id="validarSession">
+            <h:inputHidden  rendered="#{login.validarSession}" value="#{login.validateSession('IndicadoresView.xhtml')}" />
+            <h:inputHidden value="#{indicadorView.init()}"/>
+        </h:form>
+        <h:form id="formleft">
+            <div class="panel panel-primary" style="width:105%">
+                <div class="panel-heading">                    
+                    Modulo de Indicadores
+                </div>
+                <div class="panel-body">
+                    <p:tree  style="font-size: smaller;width:285px; height:430px "  value="#{indicadorView.root}" var="node" dynamic="true" cache="false"
+                             selectionMode="single"  selection="#{indicadorView.selectedNode}" id="tree">
+                        <p:ajax event="select" update=":formleft:tree,:contenido" listener="#{indicadorView.onNodeSelect}" />
+                        <p:ajax event="expand" listener="#{indicadorView.onNodeExpanded}" />
+                        <p:ajax event="collapse" listener="#{indicadorView.onNodeCollapse}" />
+                        <p:treeNode>  
+                            <h:outputText value="#{indicadorView.nombreNodo(node)}" />
+                        </p:treeNode>  
+                    </p:tree>
+                </div>  
+            </div>
+        </h:form>
+
+    </ui:define>
+    <ui:define name="Contenido">
+        <h:panelGrid id="contenido" >
+            <ui:include id="panel" src="#{indicadorView.url}"  />
+        </h:panelGrid>  
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,126 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../TemplateIndicadores.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="MenuIzquierda">
+
+        <script type="text/javascript" >
+            function ext() {
+                this.cfg.seriesDefaults.rendererOptions.dataLabelFormatString = '%.4s';
+                this.cfg.seriesDefaults.rendererOptions.dataLabelThreshold = 0;
+            }
+        </script>
+
+        <h:form id="formleft">
+            <div class="panel panel-primary" style="width:105%">
+                <div class="panel-heading">                    
+                    <a href="mapaRiesgo.xhtml" title="Regresar"><span class="glyphicon glyphicon-arrow-left label-info "></span></a>
+                    Reportes Comparativos
+                </div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <p  class="text-left"><span class="input-group-addon">Municipios</span>
+                            <span class="input-group-btn">
+                                <p:commandButton  update =":fMunicipios" styleClass="btn btn-primary btn-xs" onclick="addMunicipio.show();"   value="+" /> 
+
+                            </span>
+                        </p>
+                    </div>
+
+                    <h:panelGrid columns="2">Periodo: 
+
+                        <p:selectOneMenu value="#{comparativosView.periodo}"  style="font-size: smaller;width:235px; height:30px; " valueChangeListener="#{comparativosView.periodoHandleChange}">
+                            <f:selectItems value="#{comparativosView.lPeriodos}"  var="te" 
+                                           itemLabel="#{te.descripcion}" itemValue="#{te.id}" /> 
+                            <p:ajax update=":formleft:tree,:contenido" />
+                        </p:selectOneMenu>
+
+                        </h:panelGrid>
+                    <br/>
+
+
+
+
+                    <p:tree  style="font-size: smaller;width:290px; height:340px "  value="#{comparativosView.root}" var="node" dynamic="true" cache="false"
+                             selectionMode="single"  selection="#{comparativosView.selectedNode}" id="tree">
+                        <p:ajax event="select" update=":formleft:tree,:formContent" listener="#{comparativosView.onNodeSelect}" />
+                        <p:ajax event="expand" listener="#{comparativosView.onNodeExpanded}" />
+                        <p:ajax event="collapse" listener="#{comparativosView.onNodeCollapse}" />
+                        <p:treeNode>  
+                            <h:outputText value="#{comparativosView.nombreNodo(node)}" />
+                        </p:treeNode>  
+                    </p:tree>
+                </div>
+
+            </div>
+
+
+        </h:form>
+
+    </ui:define>
+    <ui:define name="Contenido">
+        <h:panelGrid id="contenido" >
+            <h:form id="formContent">
+                <p:growl  id="growl" showDetail="true" sticky="true" life="3000"  />  
+                <p:tabView id="tabReportes" style="width:800px; ">
+
+                    <p:tab id="tab4" title="Comparativo Municipios">
+
+                        <h4 class="page-header"><p:outputLabel value="#{comparativosView.tituloNivelDesempeno}" /></h4>
+
+                        <p:panelGrid columns="2"  style="width:800px; height:100px">
+                            <c:if test="#{comparativosView.datos.equals('SI')}">
+                                <p:barChart extender="ext" max="5" min ="0" value="#{comparativosView.barraComparativa}" legendPosition="nw"  />
+                            </c:if>
+                            <c:if test="#{!comparativosView.datos.equals('SI')}">
+                                <h4 class="page-header">No existen datos para el Periodo y Municipios seleccionados</h4>
+                            </c:if>
+                        </p:panelGrid>
+
+
+                    </p:tab>    
+                </p:tabView>  
+
+
+            </h:form>   
+        </h:panelGrid>  
+        <p:dialog header="Seleccionar Municipios" widgetVar="addMunicipio" showEffect="fade" hideEffect="explode" modal="true"> 
+            <h:form id="fMunicipios">
+                <p:scrollPanel style="width:100%;height:60%" mode="native">
+                    <h:panelGrid columns="3"  style="width:60%; height:60%; border: 0">
+                        <p:panelGrid columns="1"> 
+                            <h:outputText value="Municipios" />
+                            <p:selectOneListbox style="width:350px; height:300px"  id="ti" value="#{comparativosView.municipioSel}">
+                                <f:selectItems value="#{comparativosView.lMunicipiosDisp}"  var="ti"
+                                               itemLabel="#{ti.descripcion}" itemValue="#{ti.id}" />   
+                            </p:selectOneListbox>
+                        </p:panelGrid>
+                        <p:panelGrid columns="1"   >
+                            <p:commandButton  styleClass="btn" update=":fMunicipios"  icon="ui-icon-carat-1-e" actionListener="#{comparativosView.asignar}"/>
+                            <p:commandButton  styleClass="btn" update=":fMunicipios"  icon="ui-icon-seek-end" actionListener="#{comparativosView.asignarTodo}"/>
+                            <p:commandButton styleClass="btn" update=":fMunicipios"  icon="ui-icon-carat-1-w" actionListener="#{comparativosView.desAsignar()}"/>
+                            <p:commandButton styleClass="btn" update=":fMunicipios"  icon="ui-icon-seek-first" actionListener="#{comparativosView.desAsignarTodo()}"/>
+                        </p:panelGrid>
+                        <p:panelGrid columns="1"> 
+                            <h:outputText value="Municipios a Comparar" />
+                            <p:selectOneListbox  style="width:350px; height:300px" id="tia" value="#{comparativosView.municipioComp}">
+                                <f:selectItems value="#{comparativosView.lMunicipiosComp}"  var="ti"
+                                               itemLabel="#{ti.descripcion}" itemValue="#{ti.id}" />   
+                            </p:selectOneListbox>
+                        </p:panelGrid>
+                    </h:panelGrid>
+                    <br></br>
+                    <p:commandButton  update =":contenido" styleClass="btn btn-primary btn-xs" oncomplete= "addMunicipio.hide();"   value="Aceptar" actionListener="#{comparativosView.comparar()}" /> 
+
+                    <p:commandButton type="button" update =":contenido" styleClass="btn btn-default btn-xs" onclick="addMunicipio.hide();"   value="Cancelar" /> 
+                </p:scrollPanel>
+            </h:form>
+        </p:dialog> 
+    </ui:define>
+
+
+</ui:composition>

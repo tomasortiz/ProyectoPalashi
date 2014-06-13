@@ -1,0 +1,96 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../TemplateModulo.xhtml">
+    
+    <ui:define name="MenuIzquierda">
+        
+        <div class="panel panel-primary" style="width:100%">
+            <div class="panel-heading">                    
+                Módulo de preguntas
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-sidebar" style="font-size: smaller;width:125%">            
+                    <f:view>
+                        <h:form id="form" prependId="false"  >
+                            <p:growl id="growl" showDetail="true" />                     
+                            <p:accordionPanel dynamic="true" >
+                                <p:ajax event="tabChange" listener="#{TableroView.onTabChange}" update=":form:growl"/>
+                                <p:tab title="Situación normal" id="TIS001">
+                                    <ul class="nav nav-sidebar">
+                                        <li><a href="../preguntas/preguntas.xhtml?tipo=TIS001" id="resp">Preg. respondidas<span class="badge pull-right">#{TableroView.numeroPreguntasTotalAC001}</span></a></li>                                        
+                                        <li><a href="../preguntas/preguntasMes.xhtml?tipo=TIS001">Sin resp. Mes<span class="badge pull-right">#{TableroViewMes.numeroPreguntasTotalAC001}</span></a></li>                                        
+                                        <li><a href="../preguntas/preguntasSinResponder.xhtml?tipo=TIS001">Sin Responder<span class="badge pull-right">#{TableroViewSinResponder.numeroPreguntasTotalAC001}</span></a></li>
+                                    </ul>					
+                                </p:tab>
+                                <p:tab title="Situación de emergencia" id="TIS002">
+                                    <ul class="nav nav-sidebar">
+                                        <li><a href="../preguntas/preguntas.xhtml?tipo=TIS002">Preg. respondidas<span class="badge pull-right">#{TableroView.numeroPreguntasTotalAC002}</span></a></li>
+                                        <li><a href="../preguntas/preguntasMes.xhtml?tipo=TIS002">Preguntas Mes <span class="badge pull-right">#{TableroViewMes.numeroPreguntasTotalAC002}</span></a></li>                                        
+                                        <li><a href="../preguntas/preguntasSinResponder.xhtml?tipo=TIS002">Sin Responder <span class="badge pull-right">#{TableroViewSinResponder.numeroPreguntasTotalAC002}</span></a></li>
+                                    </ul>
+                                </p:tab>
+
+                            </p:accordionPanel>
+                        </h:form>
+                    </f:view>
+
+                </ul>
+            </div>
+        </div>
+    </ui:define>
+    <ui:define name="Contenido">
+                 <style type="text/css">
+            .old {
+                background-color: #6CE26C !important;
+                background-image: none !important;
+                color: #000000 !important;
+            }
+        </style>
+            <h:form id="mainForm">
+                
+                
+                <p:growl id="msgs" showDetail="true" />
+				  <h1 class="page-header">Preguntas Respondidas</h1>
+                    <h5 class="page-header">Fecha de próximo corte: 01/06/2014</h5>
+                    <p:dataGrid id="pregunt" var="preguntas" style="text-align: left; width: 1000px;" value="#{TableroView.preguntas}" columns="1" rows="6"	paginator="true" rowsPerPageTemplate="5,10,#{TableroView.preguntas.size()}"
+                                >					 
+                                  <p:dataTable id="respuesta" var="respuest" selection="#{TableroView.select}" selectionMode="single" value="#{preguntas.opcionesRespuestaList}" rowKey="#{respuest.codigoNivel}"
+                                               style="text-align: left" rowStyleClass="#{respuest.orden == TableroView.result[preguntas.codigo] ? 'old' : ''}">                                     
+                                      <p:ajax id="ajaxc" event="rowSelect" update="@this,footerAc,:mainForm:msgs"  listener="#{TableroView.onRowSelect}" immediate="true"/>                                               
+                                            <f:facet name="header">      
+                                                
+                                            </f:facet>  
+                                      <p:column selectionMode="single" style="width:2%" /> 
+                                            
+                                      <p:column headerText=" #{preguntas.descripcion}">  
+                                              #{respuest.descripcion}                                                 
+                                            </p:column>  
+
+                                            <f:facet name="footer">  
+                                             
+                                                <p:column colspan="1" footerText="Evidencia: " style="text-align:left; float: left;"  />  
+                                                
+                                                <p:outputLabel value="Evidencia:"  style="text-align:left; float: left;"/>
+                                                <p:column >
+                                                    <p:inputText style="text-align:left; width: 91%;" id="footerAc" value="#{TableroView.colorRespuesta[preguntas.codigo]}" disabled="#{TableroView.footer}">                                                        
+                                                        <p:ajax event="blur" update="@this"/>       
+                                                    </p:inputText>    
+                                                </p:column>
+                                                
+                                          
+                                        </f:facet>  
+
+                                        </p:dataTable> 
+											<h5 class="page-header"></h5>
+                                        
+                                    </p:dataGrid>
+                                    <br></br>	
+                                    <p:commandButton id="viewButton" value="Guardar" update="@this,:mainForm:msgs" icon="ui-icon-save" action="#{TableroView.guardarRespuesta()}"/>
+
+                
+            </h:form>        
+    </ui:define>
+</ui:composition>

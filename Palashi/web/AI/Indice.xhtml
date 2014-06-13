@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:form id="formContent">
+        <p:growl  id="growl" showDetail="true" sticky="true" life="3000"  />  
+        <p:panelGrid columns="2"  style="width:800px; height:400px">
+
+            <f:facet name="header" >
+                Administración de Indicadores
+                <p:toolbar id="tool">
+                    <p:toolbarGroup align="left">
+                        <p:commandButton icon="ui-icon-document" type="button"  update =":formNuevo" title="Nuevo"  onclick="NuevoIndicador.show();"/>
+
+
+
+                    </p:toolbarGroup>
+                </p:toolbar>
+            </f:facet>
+
+            <h2> Bienvenidos al modulo de administración de Indicadores </h2>
+            <br> </br>
+            <p> En este modulo se podrá configurar los indicadores, subindicadores, variables, preguntas y opciones de respuesta definidos en las hojas metodológicas de cada indicador</p>
+        </p:panelGrid>      
+    </h:form>  
+    <h:form id="formNuevo">
+        <p:dialog  header="Agregar nuevo Indicador" widgetVar="NuevoIndicador" showEffect="fade" hideEffect="explode" modal="true"> 
+
+            <p:scrollPanel style="width:600px;height:385px" mode="native">
+                <p:panelGrid columns="2" >
+                    
+
+                    <h:outputLabel  value="Código Indicador " />
+                    <p:inputText id="inputCodigo" size="58" value="#{indicadorView.codigo}"  label="Código del Indicador" />
+
+                    <h:outputLabel  value="Nombre del Indicador " />
+                    <p:inputText id="inputNombre" size="58" value="#{indicadorView.nombre}"  label="Nombre del Indicador"/>
+
+                    <h:outputLabel  value="Peso " />
+                    <p:inputText id="inputPeso" size="58" value="#{indicadorView.peso}"  label="Peso del Indicador"/>
+
+
+                    <h:outputLabel  value="Descripción " />
+                    <p:inputTextarea  id="txtDescripcion" rows="3" cols="60"  value="#{indicadorView.descripcion}"/>
+
+
+                    <h:outputLabel  value="Relevancia " />
+                    <p:inputTextarea  id="txtRelevancia" rows="3" cols="60"  value="#{indicadorView.relevancia}"/>
+
+
+                    <h:outputLabel  value="TipoEscala " />
+
+                    <p:selectOneMenu value="#{indicadorView.tipoEscala}"  style="width:390px">
+                        <f:selectItems value="#{indicadorView.tiposEscala}"  var="te"
+                                       itemLabel="#{te.descripcion}" itemValue="#{te.id}" />                                                                  
+                    </p:selectOneMenu> 
+                    <f:facet name="footer">
+                        <p:commandButton icon="ui-icon-disk" styleClass="btn" style="top:5px; margin-left:180px;" value="Guardar" update=":formleft:tree,:formContent" actionListener="#{indicadorView.guardar}" id="withIcon1"   
+                                          oncomplete="NuevoIndicador.hide()"/>
+                        <p:commandButton styleClass="btn" style="top:5px; margin-left:20px;" value="Cancelar" type="button" onclick="NuevoIndicador.hide()" />
+                    </f:facet> 
+
+                </p:panelGrid>
+            </p:scrollPanel>
+        </p:dialog>  
+
+    </h:form>    
+</html>

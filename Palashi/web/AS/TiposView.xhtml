@@ -1,0 +1,167 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      template="../TemplateModulo.xhtml">
+
+
+
+
+    <ui:define name="MenuIzquierda">
+        <div class="panel panel-primary" style="width:100%">
+            <div class="panel-heading">                    
+                Administración del Sistema
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-sidebar" style="font-size: smaller;width:125%">            
+                    <li>
+                        <a href="ZonaGeograficaView.xhtml">Zonas Geográficas</a>
+                    </li>
+                    <li>
+                        <a href="InstitucionView.xhtml">Instituciones</a>
+                    </li>
+                    <li>
+                        <a href="ParametroView.xhtml">Parametros del Sistema</a>
+                    </li>
+                    <li class="active">
+                        <a href="TiposView.xhtml">Tipos</a>
+                    </li>
+                    <li>
+                        <a href="PerfilView.xhtml">Perfiles de Usuario</a>                                
+                    </li>
+                    <li>
+                        <a href="UsuarioView.xhtml">Usuarios</a>                                
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </ui:define>
+
+    <ui:define name="Contenido">
+            <h:form id="validarSession">
+               <h:inputHidden  rendered="#{tiposView.login.validarSession}" value="#{tiposView.login.validateSession('TiposView.xhtml')}" />
+           <h:inputHidden value="#{tiposView.init()}"/>
+            </h:form>
+
+
+        <h:form id="form5">
+            <p:growl id="msgs" showDetail="true" sticky="true"  life ="3000"/>
+
+
+            <p:dataTable id="inst" var="tipos" value="#{tiposView.listTipos}">
+                <f:facet name="header"  >
+                    Tipos
+                </f:facet>
+
+                <p:column headerText="Codigo" style="width:24%">
+                    <h:outputText value="#{tipos.codigo}" />
+                </p:column>
+                <p:column sortBy="#{tipos.descripcion}"  headerText="Descripción"  >
+                    <h:outputText value="#{tipos.descripcion}"/>
+                </p:column>
+                <p:column style="width:300px;" width="300" filterStyle="width:280px" sortBy="#{tipos.grupo}" headerText="Grupo" >
+                    <h:outputText value="#{tipos.grupo}"/>
+                </p:column>
+
+                <p:column style="width:180px;" width="180" filterStyle="width:100px" sortBy="#{tipos.valor}" headerText="Valor" >
+                    <center>
+                        <h:outputText value="#{tipos.valor}"/>                           
+                    </center>            
+                </p:column>
+                
+                <p:column style="width:20%">
+                    <p:commandButton id="editarButton" update=":formActualizar:display" oncomplete="PF('tiposDialog').show()" icon="ui-icon-search" title="Actualizar">
+                        <f:setPropertyActionListener value="#{tipos}" target="#{tiposView.tiposSelected}" />
+                    </p:commandButton>
+
+                    <p:commandButton id="eliminarButton" update=":form5" action="#{tiposView.eliminar()}" icon="ui-icon-trash" title="View">
+                        <f:setPropertyActionListener value="#{tipos}" target="#{tiposView.tiposSelected}" />
+                    </p:commandButton>
+                </p:column>                
+
+
+                <f:facet name="footer"> 
+                    <p:commandButton value="Agregar" update=":form5" type="button" onclick="tiposAdd.show();" />                                    
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+        
+        <h:form id="formActualizar">
+
+            <p:dialog header="Actualizar Tipo" widgetVar="tiposDialog" resizable="false" id="instDlg"
+                      showEffect="fade" hideEffect="explode" modal="true">
+
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">
+
+                    <h:outputLabel  value="Código:" />
+                    <h:outputLabel  value="#{tiposView.tiposSelected.codigo}" />
+                    <h:outputLabel  value="Descripción:" />                          
+                    <p:inputText value="#{tiposView.tiposSelected.descripcion}"
+                                 required="true" label="Descripcion" requiredMessage="La descripción del tipo es obligatoria." />
+
+                    <h:outputLabel value="Grupo:" />
+                    <p:inputText value="#{tiposView.tiposSelected.grupo}"
+                                 required="true" label="Grupo" requiredMessage="El grupo es obligatorio" />
+
+                    <h:outputLabel value="Valor:" />
+                    <p:inputText value="#{tiposView.tiposSelected.valor}"
+                                 required="false" label="Valor"  />
+
+              
+                    <f:facet name="footer">                              
+                        <h:commandButton id="parametroEditButton1" value="Guardar"
+                                         action="#{tiposView.actualizar()}"  />
+                        <h:commandButton style="margin-left:30px;" value="Cancelar" type="button" onclick="tiposEdit.hide();" />
+                    </f:facet>
+
+                </h:panelGrid>
+
+            </p:dialog>
+
+        </h:form> 
+
+
+
+        <h:form>
+            <p:dialog header="" widgetVar="tiposAdd" resizable="false" modal="true" showEffect="fade" hideEffect="explode"> 
+                <h:panelGrid columns="2" cellpadding="6" >
+
+                    <f:facet name="header">
+                        <legend>Registrar Tipos</legend>
+                    </f:facet>
+
+
+                    <h:outputLabel  value="Código:" />
+                    <p:inputText value="#{tiposView.tipos.codigo}"
+                                 required="true" label="Codigo" requiredMessage="El Código es obligatorio" />
+
+                    <h:outputLabel  value="Descripcion:" />                          
+                    <p:inputText value="#{tiposView.tipos.descripcion}"
+                                 required="true" label="Descripcion" requiredMessage="La Descripción es obligatoria." />
+
+                    <h:outputLabel value="Grupo:" />
+                    <p:inputText value="#{tiposView.tipos.grupo}"
+                                 required="true" label="repLegal" requiredMessage="Grupo obligatorio" />
+
+                    <h:outputLabel value="Valor:" />
+                    <p:inputText value="#{tiposView.tipos.valor}"
+                                 required="false" label="Valor"  />
+
+     
+
+                    <f:facet name="footer">
+
+                        <p:commandButton value="Crear" update=":form5" action="#{tiposView.guardar()}" oncomplete="tiposAdd.hide()" />
+                        <h:commandButton style="margin-left:30px;" value="Cancelar" type="button" onclick="tiposAdd.hide()" />
+                    </f:facet>
+                </h:panelGrid> 
+
+            </p:dialog> 
+        </h:form>       
+
+
+    </ui:define>
+
+</ui:composition>
+

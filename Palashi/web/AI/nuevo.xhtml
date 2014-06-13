@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>TODO supply a title</title>
+    </h:head>
+    <body>
+        <div>
+            <h:form id="formContent">
+                
+                <p:panelGrid columns="2"  style="width:800px; height:400px">
+                <f:facet name="header" >
+                    ADMINISTRACIÓN DE INDICADORES
+                    <p:toolbar>
+                        <p:toolbarGroup align="left">
+                            <p:commandButton value="With Icon" actionListener="#{indicadorView.guardar}" id="withIcon"   
+                                 icon="ui-icon-disk" />
+                            <p:commandButton type="button" title="Nuevo" icon="ui-icon-document" onclick="NuevoIndicador.show()" />
+                            <p:commandButton type="button" title="Guardar" icon="ui-icon-disk" actionListener="#{indicadorView.guardar}"/>
+                            <p:commandButton type="button" title="Eliminar" icon="ui-icon-trash" actionListener="#{indicadorView.eliminar}"/>
+                        </p:toolbarGroup>
+                    </p:toolbar>
+                </f:facet>
+
+                <h2> Bienvenidos al modulo de administración de Indicadores </h2>
+                <br> </br>
+                <p> En este modulo se podrá configurar los indicadores, subindicadores, variables, preguntas y opciones de respuesta definidos en las hojas metodológicas de cada indicador</p>
+
+            </p:panelGrid>
+                
+                <p:scrollPanel style="width:600px;height:445px" mode="native">
+                <p:panelGrid columns="2">
+                    <h:outputLabel  value="Código Indicador: " />
+                    <p:inputText id="inputCodigo" size="58" value="#{indicadorView.codigo}"   label="Código del Indicador" />
+                    <f:facet name="footer">
+                         <p:commandButton value="Guardar" actionListener="#{indicadorView.guardar}" id="withIcon1"   
+                                 icon="ui-icon-disk" />                                   
+                        <p:commandButton  title="Guardar" icon="ui-icon-disk" actionListener="#{indicadorView.guardar()}"/>    
+                    </f:facet> 
+                    </p:panelGrid>
+                </p:scrollPanel>
+                
+                
+              
+        </h:form>   
+            
+            <h:form>
+                <p:scrollPanel style="width:600px;height:445px" mode="native">
+                <p:panelGrid columns="2">
+                    <h:outputLabel  value="Código Indicador: " />
+                    <p:inputText id="inputCodigo" size="58" value="#{indicadorView.codigo}"   label="Código del Indicador" />
+                    <f:facet name="footer">
+                        <h:commandButton value="Guardar" type="button" action="#{indicadorView.guardar()}" />                                    
+                        <p:commandButton type="button" title="Guardar" icon="ui-icon-disk" actionListener="#{indicadorView.guardar()}"/>    
+                    </f:facet> 
+                    </p:panelGrid>
+                </p:scrollPanel>
+                
+            </h:form>
+            
+            <p:dialog  widgetVar="NuevoIndicador" dynamic="false" resizable="false" modal="true"> 
+                    
+            </p:dialog>  
+        </div>
+    </body>
+</html>

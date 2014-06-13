@@ -1,0 +1,112 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../TemplateIndicadores.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="MenuIzquierda">
+
+        <script type="text/javascript" >
+            function ext() {
+                this.cfg.seriesDefaults.rendererOptions.dataLabelFormatString = '%.4s';
+                this.cfg.seriesDefaults.rendererOptions.dataLabelThreshold = 0;
+            }
+        </script>
+
+
+        <h:form id="formleft">
+            <div class="panel panel-primary" style="width:105%">
+                <div class="panel-heading">                    
+                    <a href="mapaRiesgo.xhtml" title="Regresar"><span class="glyphicon glyphicon-arrow-left label-info "></span></a>
+                    Reportes de Desempeño
+                </div>
+                <div class="panel-body">
+                    <h:panelGrid columns="2">
+                        Periodo: 
+                        <p:selectOneMenu value="#{arbolReporteView.periodo}"  style="font-size: smaller;width:200px" valueChangeListener="#{arbolReporteView.periodoHandleChange}">
+                            <f:selectItems value="#{arbolReporteView.lPeriodos}"  var="te" 
+                                           itemLabel="#{te.descripcion}" itemValue="#{te.id}" /> 
+                            <p:ajax update=":formleft:tree,:contenido" />
+                        </p:selectOneMenu>
+                        
+                        Municipio: 
+
+                        <p:selectOneMenu value="#{arbolReporteView.idZona}"  style="font-size: smaller;width:200px" valueChangeListener="#{arbolReporteView.municipioHandleChange}">
+                            <f:selectItems value="#{arbolReporteView.lMunicipios}"  var="te" 
+                                           itemLabel="#{te.descripcion}" itemValue="#{te.id}" /> 
+                            <p:ajax update=":formleft:tree,:contenido" />
+                        </p:selectOneMenu> 
+                        Situación: 
+
+                        <p:selectOneMenu value="#{arbolReporteView.idSituacion}"  style="font-size: smaller;width:200px" valueChangeListener="#{arbolReporteView.situacionHandleChange}">
+                            <f:selectItems value="#{arbolReporteView.lSituacion}"  var="te" 
+                                           itemLabel="#{te.descripcion}" itemValue="#{te.id}" /> 
+                            <p:ajax update=":formleft:tree,:contenido" />
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    
+                    <br></br>
+
+                    <p:tree  style="font-size: smaller;width:280px; height:340px "  value="#{arbolReporteView.root}" var="node" dynamic="true" cache="false"
+                             selectionMode="single"  selection="#{arbolReporteView.selectedNode}" id="tree">
+                        <p:ajax event="select" update=":formleft:tree,:contenido" listener="#{arbolReporteView.onNodeSelect}" />
+                        <p:ajax event="expand" listener="#{arbolReporteView.onNodeExpanded}" />
+                        <p:ajax event="collapse" listener="#{arbolReporteView.onNodeCollapse}" />
+                        <p:treeNode>  
+                            <h:outputText value="#{arbolReporteView.nombreNodo(node)}" />
+                        </p:treeNode>  
+                    </p:tree>
+                </div>
+            </div>
+        </h:form>
+
+    </ui:define>
+    <ui:define name="Contenido">
+        <h:panelGrid id="contenido" >
+            <h:form id="formContent">
+                <p:growl  id="growl" showDetail="true" sticky="true" life="3000"  />  
+                <p:tabView id="tabReportes" style="width:600px; height:450px">
+                    <p:tab id="tab1" title="Nivel Desempeño">   
+                        <h4 class="page-header"><p:outputLabel value="#{arbolReporteView.tituloNivelDesempeno}" /></h4>
+                        <p>
+                            <p:outputLabel value="#{arbolReporteView.nombreZona}" /> 
+                            - <p:outputLabel value="#{arbolReporteView.periodo}" /> 
+                        </p>
+                        <p:panelGrid columns="1"  style="width:750px; height:100px">
+
+                            <p:donutChart extender="ext" value="#{arbolReporteView.anillo}" legendPosition="n"  showDataLabels="true" dataFormat="value" />
+
+                        </p:panelGrid>
+                    </p:tab>
+                    <c:if test="#{!arbolReporteView.tipoSeleccionado.equals('IND003')}">
+                        <p:tab id="tab2" title="Comparativo">   
+                            <h4 class="page-header"><p:outputLabel value="#{arbolReporteView.tituloComparativo}" /></h4>
+                            <p>
+                                <p:outputLabel value="#{arbolReporteView.nombreZona}" /> 
+                                - <p:outputLabel value="#{arbolReporteView.periodo}" /> 
+                            </p>
+
+                            <p:panelGrid columns="2"  style="width:800px; height:100px">
+                                <p:barChart extender="ext" max="5" min ="0" value="#{arbolReporteView.barra}" legendPosition="nw"  />
+                            </p:panelGrid>
+                        </p:tab>
+                    </c:if>    
+                    <p:tab id="tab3" title="Evolución Histórica">  
+                        <h4 class="page-header"><p:outputLabel value="#{arbolReporteView.tituloHistorico}" /></h4>
+                        <p>
+                            <p:outputLabel value="#{arbolReporteView.nombreZona}" /> 
+                            - <p:outputLabel value="#{arbolReporteView.periodo}" /> 
+                        </p>
+                        <p:panelGrid columns="2"  style="width:800px; height:100px">
+                            <p:lineChart  maxY="5" minY ="0" value="#{arbolReporteView.linea}" legendPosition="nw" />
+                        </p:panelGrid>
+                    </p:tab>
+
+                </p:tabView>  
+
+            </h:form>   
+        </h:panelGrid>  
+    </ui:define>
+</ui:composition>

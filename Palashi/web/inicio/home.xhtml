@@ -1,0 +1,202 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../TemplateModulo.xhtml">
+
+    <ui:define name="MenuIzquierda">
+        <div class="panel panel-primary" style="width:100%">
+            <div class="panel-heading">                    
+                Módulo de preguntas
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-sidebar" style="font-size: smaller;width:125%">            
+                    <f:view>
+                        <h:form id="form" prependId="false"  >
+                            <p:growl id="growl" showDetail="true" />                     
+                            <p:accordionPanel dynamic="true" >
+                                <p:ajax event="tabChange" listener="#{TableroView.onTabChange}" update=":form:growl"/>
+                                <p:tab title="Situación normal" id="TIS001">
+                                    <ul class="nav nav-sidebar">
+                                        <li><a href="../preguntas/preguntas.xhtml?tipo=TIS001" id="resp">Preg. respondidas<span class="badge pull-right">#{TableroView.numeroPreguntasTotalAC001}</span></a></li>                                        
+                                        <li><a href="../preguntas/preguntasMes.xhtml?tipo=TIS001">Sin resp. Mes<span class="badge pull-right">#{TableroViewMes.numeroPreguntasTotalAC001}</span></a></li>                                        
+                                        <li><a href="../preguntas/preguntasSinResponder.xhtml?tipo=TIS001">Sin Responder<span class="badge pull-right">#{TableroViewSinResponder.numeroPreguntasTotalAC001}</span></a></li>
+                                    </ul>					
+                                </p:tab>
+                                <p:tab title="Situación de Post Emergencia" id="TIS002">
+                                    <ul class="nav nav-sidebar">
+                                        <li><a href="../preguntas/preguntas.xhtml?tipo=TIS002">Preg. respondidas<span class="badge pull-right">#{TableroView.numeroPreguntasTotalAC002}</span></a></li>
+                                        <li><a href="../preguntas/preguntasMes.xhtml?tipo=TIS002">Preguntas Mes <span class="badge pull-right">#{TableroViewMes.numeroPreguntasTotalAC002}</span></a></li>                                        
+                                        <li><a href="../preguntas/preguntasSinResponder.xhtml?tipo=TIS002">Sin Responder <span class="badge pull-right">#{TableroViewSinResponder.numeroPreguntasTotalAC002}</span></a></li>
+                                    </ul>
+                                </p:tab>
+
+                            </p:accordionPanel>
+                        </h:form>
+                    </f:view>
+
+                </ul>
+            </div>
+        </div>
+    </ui:define>
+    <ui:define name="Contenido">
+        <h:form id="validarSession">
+            <h:inputHidden  rendered="#{login.validarSession}" value="#{login.validateSession('home.xhtml')}" />
+        </h:form>
+
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/default.css" />
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/syntaxhighlighter/syntaxhighlighter.css" />
+        <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+        <link href="../images/preguntas/styles.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="../images/preguntas/style.css" rel="stylesheet" type="text/css" /> 
+
+        <h:form id="form_Preguntas">            
+            <p:tabView id="tabView" styleClass="texto" >                 
+                <p:tab id="tab_1" title="Situación Normal" titletip="TIS001">	 
+                    <p style="float: left; text-align: left;">El indicador consta de dos modos de medición, uno en situación normal, el cual mide el conocimiento que tiene el municipio sobre el riesgo costero en el territorio, y otro, en situación de post-emergencia, que permite determinar si el conocimiento que se tenía del riesgo costero fue suficiente para poder manejar la situación de emergencia dada.</p>
+                    <div id="content" style="margin-top: 10px;">
+                        <div class="column_box">
+                            <div class="col1">
+                                <div class="index_title">
+                                    <img src="../images/preguntas/title1.png" alt="" title="" style="padding-left: 10px; padding-top: 3px; float: left;"/>
+                                    <h2>Total Respondidas</h2>
+                                </div>
+                                <div class="col_bg_top"></div>
+                                <div class="col_bg">
+                                    <div class="col_grad_bot">
+                                        <div class="col_grad_top">
+                                            <div class="pad">
+                                                <div class="num"><span class="badge pull-right">#{TableroView.numeroPreguntasTotalAC001}</span> </div>
+                                                <a href="#">Preguntas respondidas en todo el periodo de actividad</a><br/><br/>
+                                                <p>#{TableroView.nombre}, Usted puede encontrar todas las preguntas que ha respondido y ver que respuesta escogió y que evidencia subió.</p>
+                                                <div style="text-align: right"><a href="#{facesContext.externalContext.requestContextPath}/preguntas/preguntas.xhtml?tipo=TIS001">Responderlas...</a></div>	
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col_bg_bot"></div>
+                            </div>
+
+                            <div class="col2">
+                                <div class="index_title">
+                                    <img src="../images/preguntas/title2.png" alt="" title="" style="padding-left: 10px; padding-top: 1px; float: left;"/>
+                                    <h2>Preguntas del Mes</h2>
+                                </div>
+                                <div class="col_bg_top"></div>
+                                <div class="col_bg">
+                                    <div class="col_grad_bot">
+                                        <div class="col_grad_top">
+                                            <div class="pad">								
+                                                <div class="num"><span class="badge pull-right">#{TableroViewMes.numeroPreguntasTotalAC001}</span> </div>
+                                                <a href="#">Número de preguntas que no ha respondido en el mes actual</a><br/><br/>
+                                                <p>#{TableroView.nombre}, Aquí podrá encontrar todas las preguntas que usted no ha respondido en éste mes, del mismo modo usted podrá contestarlas en cualquier momento. </p>																		
+                                                <div style="text-align: right"><a href="#{facesContext.externalContext.requestContextPath}/preguntas/preguntasMes.xhtml?tipo=TIS001">Responderlas...</a></div>	
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col_bg_bot"></div>
+                            </div>
+
+                            <div class="col3">
+                                <div class="index_title">
+                                    <img src="../images/preguntas/title3.png" alt="" title="" style="padding-left: 10px; padding-top: 3px; float: left;"/>
+                                    <h2>Preguntas sin responder</h2>
+                                </div>
+                                <div class="col_bg_top"></div>
+                                <div class="col_bg">
+                                    <div class="col_grad_bot">
+                                        <div class="col_grad_top">
+                                            <div class="pad" style="padding-bottom: 3px;">
+                                                <div class="num"><span class="badge pull-right">#{TableroViewSinResponder.numeroPreguntasTotalAC001}</span> </div>
+                                                <a href="#">Preguntas sin responder en general</a><br/><br/>
+                                                <p>Todas las preguntas que usted no ha respondido en el periodo de análisis </p>
+                                                <div style="text-align: right"><a href="#{facesContext.externalContext.requestContextPath}/preguntas/preguntasRespondidas.xhtml?tipo=TIS001">Responderlas...</a></div>									
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col_bg_bot"></div>
+                            </div>
+
+                        </div>   
+                    </div>
+                </p:tab>
+                <p:tab id="tab_2" title="Situación de Post Emergencia" 
+                       titletip="TIS001" >
+                    <p style="float: left; text-align: left;">El indicador consta de dos modos de medición, uno en situación normal, el cual mide el conocimiento que tiene el municipio sobre el riesgo costero en el territorio, y otro, en situación de post-emergencia, que permite determinar si el conocimiento que se tenía del riesgo costero fue suficiente para poder manejar la situación de emergencia dada.</p>
+                    <div id="content" style="margin-top: 10px;">
+                        <div class="column_box">
+                            <div class="col1">
+                                <div class="index_title">
+                                    <img src="../images/preguntas/title1.png" alt="" title="" style="padding-left: 10px; padding-top: 3px; float: left;"/>
+                                    <h2>Total Respondidas</h2>
+                                </div>
+                                <div class="col_bg_top"></div>
+                                <div class="col_bg">
+                                    <div class="col_grad_bot">
+                                        <div class="col_grad_top">
+                                            <div class="pad">
+                                                <div class="num"><span class="badge pull-right">#{TableroView.numeroPreguntasTotalAC002}</span> </div>
+                                                <a href="#">Preguntas respondidas en todo el periodo de actividad</a><br/><br/>
+                                                <p>#{TableroView.nombre}, Usted puede encontrar todas las preguntas que ha respondido y ver que respuesta escogió y que evidencia subió.</p>
+                                                <div style="text-align: right"><a href="#{facesContext.externalContext.requestContextPath}/preguntas/preguntas.xhtml?tipo=TIS002">Responderlas...</a></div>	
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col_bg_bot"></div>
+                            </div>
+
+                            <div class="col2">
+                                <div class="index_title">
+                                    <img src="../images/preguntas/title2.png" alt="" title="" style="padding-left: 10px; padding-top: 1px; float: left;"/>
+                                    <h2>Preguntas del Mes</h2>
+                                </div>
+                                <div class="col_bg_top"></div>
+                                <div class="col_bg">
+                                    <div class="col_grad_bot">
+                                        <div class="col_grad_top">
+                                            <div class="pad">								
+                                                <div class="num"><span class="badge pull-right">#{TableroViewMes.numeroPreguntasTotalAC002}</span> </div>
+                                                <a href="#">Número de preguntas que no ha respondido en el mes actual</a><br/><br/>
+                                                <p>#{TableroView.nombre}, Aquí podrá encontrar todas las preguntas que usted no ha respondido en este mes, del mismo modo usted podrá contestarlas en cualquier momento. </p>																		
+                                                <div style="text-align: right"><a href="#{facesContext.externalContext.requestContextPath}/preguntas/preguntasMes.xhtml?tipo=TIS002">Responderlas...</a></div>	
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col_bg_bot"></div>
+                            </div>
+
+                            <div class="col3">
+                                <div class="index_title">
+                                    <img src="../images/preguntas/title3.png" alt="" title="" style="padding-left: 10px; padding-top: 3px; float: left;"/>
+                                    <h2>Preguntas sin responder</h2>
+                                </div>
+                                <div class="col_bg_top"></div>
+                                <div class="col_bg">
+                                    <div class="col_grad_bot">
+                                        <div class="col_grad_top">
+                                            <div class="pad" style="padding-bottom: 3px;">
+                                                <div class="num"><span class="badge pull-right">#{TableroViewSinResponder.numeroPreguntasTotalAC002}</span> </div>
+                                                <a href="#">Preguntas sin responder en general</a><br/><br/>
+                                                <p>Todas las preguntas que usted no ha respondido en el periodo de análisis. </p>
+                                                <div style="text-align: right"><a href="#{facesContext.externalContext.requestContextPath}/preguntas/preguntasRespondidas.xhtml?tipo=TIS002">Responderlas...</a></div>									
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col_bg_bot"></div>
+                            </div>
+
+                        </div>   
+                    </div> 
+                </p:tab>
+            </p:tabView>                      
+        </h:form>	
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,173 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 template="../TemplateModulo.xhtml">
+
+    <ui:define name="MenuIzquierda">
+        <div class="panel panel-primary" style="width:100%">
+            <div class="panel-heading">                    
+                Administración del Sistema
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-sidebar" style="font-size: smaller;width:125%">            
+                    <li class="active">
+                        <a href="ZonaGeograficaView.xhtml">Zonas Geográficas</a>
+                    </li>
+                    <li>
+                        <a href="InstitucionView.xhtml">Instituciones</a>
+                    </li>
+                    <li>
+                        <a href="ParametroView.xhtml">Parametros del Sistema</a>
+                    </li>
+                    <li>
+                        <a href="TiposView.xhtml">Tipos</a>
+                    </li>
+                    <li>
+                        <a href="PerfilView.xhtml">Perfiles de Usuario</a>                                
+                    </li>
+                    <li>
+                        <a href="UsuarioView.xhtml">Usuarios</a>                                
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </ui:define>
+
+    <ui:define name="Contenido">
+        <h:form id="validarSession">
+            <h:inputHidden  rendered="#{zonaGeograficaView.login.validarSession}" value="#{zonaGeograficaView.login.validateSession('ZonaGeograficaView.xhtml')}" />
+            <h:inputHidden value="#{zonaGeograficaView.init()}"/>
+        </h:form>
+        <h:form id="form5">
+
+            <p:growl id="msgs" showDetail="true" />
+
+            <p:dataTable id="zonas" var="zona" value="#{zonaGeograficaView.listZonas}">
+                <f:facet name="header"  >
+                    Zonas Geográficas
+                </f:facet>
+
+                <p:column headerText="Codigo" style="width:24%">
+                    <h:outputText value="#{zona.codigo}" />
+                </p:column>
+                <p:column sortBy="#{zona.descripcion}"  headerText="Descripción"  >
+                    <h:outputText value="#{zona.descripcion}"/>
+                </p:column>
+
+                <p:column sortBy="#{zona.coordX}" headerText="Coord X" style="width:300px" >
+                    <h:outputText value="#{zona.coordX}"/>
+                </p:column>                        
+                <p:column sortBy="#{zona.coordY}" headerText="Coord Y" >
+                    <h:outputText value="#{zona.coordY}"/>
+                </p:column>
+                                        
+
+                <p:column style="width:10%">
+                    <p:commandButton id="editarButton" update=":formActualizar:display"  oncomplete="PF('zonaDialog').show()" icon="ui-icon-search" title="Actualizar">
+                        <f:setPropertyActionListener value="#{zona}" target="#{zonaGeograficaView.zonaSelected }" />
+                    </p:commandButton>
+
+                    <p:commandButton id="eliminarButton" update=":form5" action="#{zonaGeograficaView.eliminar()}" icon="ui-icon-trash" title="View">
+                        <f:setPropertyActionListener value="#{zona}" target="#{zonaGeograficaView.zonaSelected}" />
+                    </p:commandButton>
+                </p:column>                        
+                <f:facet name="footer">
+                    <p:commandButton value="Agregar" update=":form5:crearForm" type="button" onclick="zonaAdd.show();" />                                    
+                </f:facet>
+            </p:dataTable>
+        </h:form>  
+
+        <h:form id="formActualizar">
+
+            <p:dialog header="Editar Zona Geográfica" widgetVar="zonaDialog" resizable="false" id="zonaDlg"
+                      showEffect="fade" hideEffect="explode" modal="true">
+
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">
+
+                    <h:outputLabel  value="Codigo:" />
+                    <h:outputLabel  value="#{zonaGeograficaView.zonaSelected.codigo}" />
+
+                    <h:outputLabel  value="Descripción:" />                          
+                    <p:inputText value="#{zonaGeograficaView.zonaSelected.descripcion}"
+                                 required="true" label="Descripcion" requiredMessage="La descripción de la zona es obligatoria." />
+
+                    <h:outputLabel value="Coord X:" />
+                    <p:inputText value="#{zonaGeograficaView.zonaSelected.coordX}"
+                                 required="true" label="coordX" requiredMessage="Coordenada  obligatoria" />
+
+                    <h:outputLabel value="Coord Y:" />
+                    <p:inputText value="#{zonaGeograficaView.zonaSelected.coordY}"
+                                 required="true" label="CoordY" requiredMessage="Coordenada  obligatoria" />
+
+                    <h:outputLabel value="codPadre:" />
+                    <p:selectOneMenu id="cbZonaa" value="#{zonaGeograficaView.codPadre}"  style="width:185px"
+                                     valueChangeListener="#{zonaGeograficaView.handleChange(event)}" >
+
+                        <f:selectItems value="#{zonaGeograficaView.clZonas}"  var="clZ"
+                                       itemLabel="#{clZ.descripcion}" itemValue="#{clZ.id}" />  
+                        <!--<p:ajax update=":crearForm:cbZona:form5:zonas" />-->
+                        <p:ajax update=":form5:zonas" listener="#{zonaGeograficaView.handleChange(event)}" />
+                    </p:selectOneMenu>    
+
+                    <f:facet name="footer">                              
+                        <h:commandButton id="parametroEditButton1" value="Guardar"
+                                         action="#{zonaGeograficaView.actualizar()}" />
+                        <h:commandButton style="margin-left:30px;" value="Cancelar" type="button" onclick="zonaDialog.hide();" />
+                    </f:facet>
+
+                </h:panelGrid>
+
+            </p:dialog>
+
+        </h:form>    
+        <!--Fin tabla+ btns de agregar, editar, eliminar -->
+
+        <h:form id="crearForm">
+            <p:dialog header="" widgetVar="zonaAdd" resizable="false" modal="true" showEffect="fade" hideEffect="explode"> 
+                <h:panelGrid columns="2" cellpadding="6" >
+
+                    <f:facet name="header">
+                        <legend>Registrar Zona Geográfica</legend>
+                    </f:facet>
+
+
+                    <h:outputLabel  value="Descripcion:" />                          
+                    <p:inputText value="#{zonaGeograficaView.zonaG.descripcion}"
+                                 required="true" label="Descripcion" requiredMessage="La descripción es obligatoria." />
+
+
+                    <h:outputLabel value="coordX:" />
+                    <p:inputText value="#{zonaGeograficaView.zonaG.coordX}"
+                                 required="true" label="coordX" requiredMessage="La coordenada es  obligatoria" />
+
+                    <h:outputLabel value="coordY:" />
+                    <p:inputText value="#{zonaGeograficaView.zonaG.coordY}"
+                                 required="true" label="coordY" requiredMessage="La coordenada es obligatoria" />
+
+                    <h:outputLabel value="codPadre:" />
+                    <p:selectOneMenu id="cbZona1" value="#{zonaGeograficaView.zonaG.codPadre}"  style="width:185px"
+                                     valueChangeListener="#{zonaGeograficaView.handleChange(event)}" >
+
+                        <f:selectItems value="#{zonaGeograficaView.clZonas}"  var="clZ"
+                                       itemLabel="#{clZ.descripcion}" itemValue="#{clZ.id}" />  
+                        <!--<p:ajax update=":crearForm:cbZona:form5:zonas" />-->
+                        <p:ajax update=":form5:zonas" listener="#{zonaGeograficaView.handleChange(event)}" />
+                    </p:selectOneMenu>                    
+
+                    <f:facet name="footer">
+
+                        <p:commandButton value="Crear" update=":form5" action="#{zonaGeograficaView.guardar()}" oncomplete="zonaAdd.hide()" />
+                        <h:commandButton style="margin-left:30px;" value="Cancelar" type="button" onclick="zonaAdd.hide()" />
+                    </f:facet>
+                </h:panelGrid> 
+
+            </p:dialog> 
+        </h:form>                
+
+
+    </ui:define>
+
+</ui:composition>
+

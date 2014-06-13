@@ -1,0 +1,339 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.amclos.view;
+
+import com.amclos.model.Usuario;
+import com.amclos.services.InstitucionManager;
+import com.amclos.services.SpringContext;
+import com.amclos.services.UsuarioManager;
+import com.amclos.services.ZonaGeograficaManager;
+import com.amclos.view.dataModel.ComboLista;
+import java.util.Date;
+import java.util.List;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
+
+/**
+ *
+ * @author Curiel
+ */
+@ManagedBean
+@SessionScoped
+public class UsuarioView {
+    private UsuarioManager usuarioManager;
+     private SpringContext context;
+     private String usuario ="Usuario";
+     private String programa ="UsuarioView.xhtm";
+     private Date fecha;
+     private String codigo,  nombre,  apellidos,  tipoUsuario="TUS001",    email,  institucioncodigo;
+     private Date fechaAlta,  fechaBaja;
+     private String pass;
+     private List<Usuario> listUsuarios;
+     private String idInstituciones;
+     private List<ComboLista> clInstituciones;
+     private List<ComboLista> clZonaGeo;
+     private Usuario usuarioSelected;
+     private  InstitucionManager institucionManager;
+     private  ZonaGeograficaManager zonaGeografica;
+     private String idZongeo;
+
+    @ManagedProperty("#{login}")
+    private Login login;
+
+    public Login getLogin() {
+        return login;
+    }
+
+    public void setLogin(Login login) {
+        this.login = login;
+    }
+    public String init() {
+        usuario = login.getUsuario();
+        return "";
+    }
+    
+    
+
+    /**
+     * Creates a new instance of UsuarioView
+     */
+    public UsuarioView() {
+        context = SpringContext.getInstance();
+        // Obtenemos el servicio ArbolManager
+        usuarioManager = (UsuarioManager) context.getBean("UsuarioManager");        
+        institucionManager = (InstitucionManager) context.getBean("InstitucionManager");
+        zonaGeografica=(ZonaGeograficaManager) context.getBean("ZonaGeograficaManager");
+        clZonaGeo = zonaGeografica.getComboZona();
+		if(clZonaGeo.size() > 0){
+			idZongeo = ((ComboLista) clZonaGeo.get(0)).getId();
+			clInstituciones = institucionManager.getComboInstitucion(idZongeo);
+	        if(clInstituciones.size()>0){
+	            idInstituciones = ((ComboLista) clInstituciones.get(0)).getId();
+	        }
+	         listUsuarios = usuarioManager.getUsuarios(idInstituciones);
+    	}
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getPrograma() {
+        return programa;
+    }
+
+    public void setPrograma(String programa) {
+        this.programa = programa;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getInstitucioncodigo() {
+        return institucioncodigo;
+    }
+
+    public void setInstitucioncodigo(String institucioncodigo) {
+        this.institucioncodigo = institucioncodigo;
+    }
+
+    public Date getFechaAlta() {
+        return fechaAlta;
+    }
+
+    public void setFechaAlta(Date fechaAlta) {
+        this.fechaAlta = fechaAlta;
+    }
+
+    public Date getFechaBaja() {
+        return fechaBaja;
+    }
+
+    public void setFechaBaja(Date fechaBaja) {
+        this.fechaBaja = fechaBaja;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public List<Usuario> getListUsuarios() {
+        return listUsuarios;
+    }
+
+    public void setListUsuarios(List<Usuario> listUsuarios) {
+        this.listUsuarios = listUsuarios;
+    }
+
+    public String getIdInstituciones() {
+        return idInstituciones;
+    }
+
+    public void setIdInstituciones(String idInstituciones) {
+        this.idInstituciones = idInstituciones;
+    }
+
+    public List<ComboLista> getClZonas() {
+        return clInstituciones;
+    }
+
+    public void setClZonas(List<ComboLista> clInstituciones) {
+        this.clInstituciones = clInstituciones;
+    }
+
+    public List<ComboLista> getClInstituciones() {
+        return clInstituciones;
+    }
+
+    public void setClInstituciones(List<ComboLista> clInstituciones) {
+        this.clInstituciones = clInstituciones;
+    }
+
+    public Usuario getUsuarioSelected() {
+        return usuarioSelected;
+    }
+
+    public void setUsuarioSelected(Usuario usuarioSelected) {
+        this.usuarioSelected = usuarioSelected;
+    }
+    
+   
+    
+  public void guardar() {
+        try {
+            
+            //usuarioManager.save("Usuario", "usuarioVire.xhtml",   codigo,"", nombre,"tel","email","estado", new Date(), null);
+         /*   Usuario usuarioNew = new Usuario();
+            usuarioNew.setApellidos(apellidos);
+            usuarioNew.setCodigo(codigo);
+            usuarioNew.setEmail(email);
+            usuarioNew.setEstado(null);
+            usuarioNew.setFecha(fecha);
+            usuarioNew.setFechaAlta(fechaAlta);
+            usuarioNew.setFechaBaja(fechaBaja);
+            usuarioNew.setInstitucioncodigo(null);
+            usuarioNew.setNombre(nombre);
+            usuarioNew.setPass(pass);
+            usuarioNew.setPrograma(programa);
+            usuarioNew.setRespuestaList(null);
+            usuarioNew.setTipoUsuario(null);
+            usuarioNew.setUsuario(usuario);
+            usuarioNew.setUsuarioPerfilList(null);*/
+          //  usuarioManager.save(usuarioNew);
+           boolean resultado = usuarioManager.save("Usuario", "usuarioView.xhtml",   codigo, nombre, apellidos,  tipoUsuario,  email, idInstituciones,  pass);
+
+            if (resultado) {
+                System.out.println("UsuarioCreado");
+                listUsuarios = usuarioManager.getUsuarios(idInstituciones);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                "El Usuario ha sido creado correctamente.", ""));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                "Error al intentar crear usuario.", ""));                
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                    "Ha ocurrido un error en el Sistema.", ""));
+        } finally {
+            limpiarCampos();
+        }
+
+    }
+
+    public void limpiarCampos() {
+        
+        codigo = "0";
+        nombre = "";
+        pass = "";
+        apellidos = "";
+        email = "";
+
+       // subIndicadorNuevo = new SubIndicador();
+        //variableNueva = new Variable();
+        
+        
+        
+    }    
+    public void eliminar() {
+        boolean resultado = usuarioManager.delete(usuarioSelected.getUsuario(), usuarioSelected.getPrograma(), usuarioSelected.getCodigo());
+        if (resultado) {
+            System.out.println("institucion Eliminado");
+            listUsuarios = usuarioManager.getUsuarios(idInstituciones);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
+            "Se ha eliminado el usuario con éxito.", "")); 
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
+            "No se ha podido eliminar este usuario.", "")); 
+        }
+    }
+   
+public void handleChangeIns(ValueChangeEvent event){  
+    System.out.println("New value: " + event.getNewValue());
+     clInstituciones = institucionManager.getComboInstitucion(idZongeo);//Cargamos las instituciones por codgo de zona
+        if(clInstituciones.size()>0){
+            idInstituciones = ((ComboLista) clInstituciones.get(0)).getId();
+        }
+         listUsuarios = usuarioManager.getUsuarios(idInstituciones);
+        
+}    
+public void handleChange(ValueChangeEvent event){  
+    System.out.println("New value: " + event.getNewValue());
+    listUsuarios = usuarioManager.getUsuarios(String.valueOf(event.getNewValue()));
+}
+
+    public void actualizar() {
+        boolean resultado;
+        try
+        {
+         usuarioManager.updateUsuario(usuarioSelected);  
+         resultado=true;
+        }catch(Exception e){
+        resultado=false;
+        }
+        if (resultado) {
+            listUsuarios = usuarioManager.getUsuarios(idInstituciones);
+            limpiarCampos();
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                "Actualizado Correctamente.", usuarioSelected.getNombre()));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                "Error al Actualizar.", usuarioSelected.getNombre()));
+        }
+    }
+
+    
+
+    public String getIdZongeo() {
+        return idZongeo;
+    }
+
+    public void setIdZongeo(String idZongeo) {
+        this.idZongeo = idZongeo;
+    }
+
+    public List<ComboLista> getClZonaGeo() {
+        return clZonaGeo;
+    }
+
+    public void setClZonaGeo(List<ComboLista> clZonaGeo) {
+        this.clZonaGeo = clZonaGeo;
+    }
+
+   
+    
+    
+    
+    
+}
