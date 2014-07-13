@@ -98,7 +98,7 @@ public class Login implements Serializable{
                 } else {
                     validarSession = true;
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Usuario y/o Contraseña errada", "Intentelo otra vez!"));
+                            "Usuario y/o Contraseña Errada", "Intentelo otra vez!"));
                     return "index";
                 }
             } else {
